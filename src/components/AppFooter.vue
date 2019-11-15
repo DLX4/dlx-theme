@@ -22,7 +22,7 @@
         <div class="left">
           <ul class="footer-menu">
             <li class="list" v-for="item in subMenu" :key="item.key">
-              <nuxt-link
+              <router-link
                 v-if="item.object === 'category'"
                 :to="{
                   name: 'category-id',
@@ -31,13 +31,13 @@
                 }"
               >
                 {{ item.title }}
-              </nuxt-link>
-              <nuxt-link
+              </router-link>
+              <router-link
                 v-else-if="item.object === 'page'"
                 :to="{ name: 'page-id', params: { id: item.object_id } }"
               >
                 {{ item.title }}
-              </nuxt-link>
+              </router-link>
               <a v-else-if="item.object === 'custom'" :href="item.url">{{
                 item.title
               }}</a>

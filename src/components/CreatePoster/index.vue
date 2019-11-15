@@ -99,13 +99,13 @@ export default {
       try {
         this.QRCodeUrl = await QRCode.toDataURL(text)
       } catch (error) {
-        console.warn(`[createQRcode]: ${error}`)
+        console.warn(`[createQRcode]: ${error}`);
         this.$message({
           title: error,
           type: 'error'
         })
       }
-    }
+    };
     createQR(window.location.href)
   },
   methods: {
@@ -115,20 +115,20 @@ export default {
       let canvas = await html2canvas(this.$refs.poster, {
         useCORS: true,
         logging: false
-      })
-      let formData = new FormData()
-      formData.append('file', canvas.toDataURL('image/png'))
-      formData.append('postID', this.content.id)
-      formData.append('name', `poster-${this.content.id}`)
-      formData.append('url', '/wp-content')
-      formData.append('mark', 'upload')
+      });
+      let formData = new FormData();
+      formData.append('file', canvas.toDataURL('image/png'));
+      formData.append('postID', this.content.id);
+      formData.append('name', `poster-${this.content.id}`);
+      formData.append('url', '/wp-content');
+      formData.append('mark', 'upload');
       let data = await this.uploadImage({
         requestData: formData
-      })
-      this.$emit('on-change', data)
-      this.poster = this.$store.state.info.domain + data.path
-      this.isFirstCreate = false
-      this.isCompleted = true
+      });
+      this.$emit('on-change', data);
+      this.poster = this.$store.state.info.domain + data.path;
+      this.isFirstCreate = false;
+      this.isCompleted = true;
       this.posterUrl = canvas.toDataURL('image/png')
     }
   }

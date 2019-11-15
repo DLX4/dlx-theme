@@ -4,24 +4,52 @@
       <li class="list">当前频道：{{ $route.query.title }}</li>
     </ul>
     <div v-if="articleList.length === 0" class="not">暂无数据！</div>
-    <article v-else class="article-list" v-for="item in articleList" :key="item.key">
-      <nuxt-link :to="{ name: 'details-id', params: { id: item.id } }" class="thumbnail-wrap">
-        <img :src="item.articleInfor.thumbnail" class="thumbnail" alt="">
-      </nuxt-link>
+    <article
+      v-else
+      class="article-list"
+      v-for="item in articleList"
+      :key="item.key"
+    >
+      <router-link
+        :to="{ name: 'details-id', params: { id: item.id } }"
+        class="thumbnail-wrap"
+      >
+        <img :src="item.articleInfor.thumbnail" class="thumbnail" alt="" />
+      </router-link>
       <div class="list-content">
         <h2 class="title">
-          <span class="classify" v-html="item.articleInfor.classify[0].name"></span>
-          <nuxt-link :to="{ name: 'details-id', params: { id: item.id } }" class="vertical-middle" v-html="item.title.rendered"></nuxt-link>
+          <span
+            class="classify"
+            v-html="item.articleInfor.classify[0].name"
+          ></span>
+          <router-link
+            :to="{ name: 'details-id', params: { id: item.id } }"
+            class="vertical-middle"
+            v-html="item.title.rendered"
+          ></router-link>
         </h2>
         <p class="summary">{{ item.articleInfor.summary }}</p>
         <div class="opeartion">
           <div class="information">
             <span><x-icon type="icon-date"></x-icon>{{ item.date }}</span>
-            <span><x-icon type="icon-hot1"></x-icon>{{ item.articleInfor.viewCount }}</span>
-            <span><x-icon type="icon-message"></x-icon>{{ item.articleInfor.commentCount }}</span>
-            <span><x-icon type="icon-good"></x-icon>{{ item.articleInfor.xmLike.very_good }}</span>
+            <span
+              ><x-icon type="icon-hot1"></x-icon
+              >{{ item.articleInfor.viewCount }}</span
+            >
+            <span
+              ><x-icon type="icon-message"></x-icon
+              >{{ item.articleInfor.commentCount }}</span
+            >
+            <span
+              ><x-icon type="icon-good"></x-icon
+              >{{ item.articleInfor.xmLike.very_good }}</span
+            >
           </div>
-          <nuxt-link class="details-btn" :to="{ name: 'details-id', params: { id: item.id } }">阅读详情</nuxt-link>
+          <router-link
+            class="details-btn"
+            :to="{ name: 'details-id', params: { id: item.id } }"
+            >阅读详情</router-link
+          >
         </div>
       </div>
     </article>
@@ -32,51 +60,53 @@
       layout="prev, pager, next, jumper"
       :current-page="currentPage"
       @current-change="_changePagination"
-      :total="totalPage">
+      :total="totalPage"
+    >
     </el-pagination>
     <!-- more btn end -->
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 export default {
-  watchQuery: ['type'],
-  name: 'Category',
-  fetch ({ store, query, params }) {
-    store.commit('article/SET_CURRENT_PAGE', +params.id)
-    return store.dispatch('article/getArticleList', {
+  watchQuery: ["type"],
+  name: "Category",
+  fetch({ store, query, params }) {
+    store.commit("article/SET_CURRENT_PAGE", +params.id);
+    return store.dispatch("article/getArticleList", {
       categories: query.type,
       page: params.id,
       per_page: 8,
       _embed: true
-    })
+    });
   },
-  head () {
+  head() {
     return {
       title: `${this.$route.query.title} | ${this.info.blogName}`
-    }
+    };
   },
   computed: {
-    ...mapState(['info']),
-    ...mapState('article', ['articleList', 'totalPage', 'currentPage'])
+    ...mapState(["info"]),
+    ...mapState("article", ["articleList", "totalPage", "currentPage"])
   },
   methods: {
-    _changePagination (id) {
+    _changePagination(id) {
       this.$router.push({
-        name: 'category-id',
+        name: "category-id",
         params: { id },
         query: {
           type: this.$route.query.type,
           title: this.$route.query.title
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
+@import "../assets/scss/variable.scss";
 // 文章列表
 .container {
   padding: $container-padding;
@@ -97,7 +127,7 @@ export default {
   }
 }
 
-@media screen and (max-width:767px) {
+@media screen and (max-width: 767px) {
   // 文章列表
   .container {
     .article-list {

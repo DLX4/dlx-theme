@@ -45,7 +45,7 @@ export const actions = {
   async getCommentList({ commit }, requestData) {
     try {
       let { data, headers } = await this.$axios.$get(
-        `${process.env.baseUrl}/wp-json/wp/v2/comments`,
+        `${this.GLOBAL.BASE_URL}/wp-json/wp/v2/comments`,
         {
           params: requestData,
           data: { progress: false }
@@ -64,7 +64,7 @@ export const actions = {
   async updateComment({ commit }, requestData) {
     try {
       let { data } = await this.$axios.$post(
-        `${process.env.baseUrl}/wp-json/wp/v2/comments`,
+        `${this.GLOBAL.BASE_URL}/wp-json/wp/v2/comments`,
         requestData,
         {
           headers: {
@@ -99,7 +99,7 @@ export const actions = {
   async updateCommentOpinion({ commit }, requestData) {
     try {
       let { data } = await this.$axios.$post(
-        `${process.env.baseUrl}/wp-json/xm-blog/v1/update-comment-meta`,
+        `${this.GLOBAL.BASE_URL}/wp-json/xm-blog/v1/update-comment-meta`,
         requestData,
         {
           headers: {

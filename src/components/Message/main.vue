@@ -38,26 +38,26 @@ export default {
 
     // 显示消息
     show ({ title, type, center, wrapCenter, showImg, imgUrl, showClose, duration = 2000, width = 'initial' } = {}, mark) {
-      this.isShow = mark
-      this.msg = title
-      this.type = type
-      this.center = center
-      this.wrapCenter = wrapCenter
-      this.closeTime = duration
-      this.showClose = showClose
-      this.showImg = showImg
-      this.width = width
-      this.imgUrl = imgUrl
+      this.isShow = mark;
+      this.msg = title;
+      this.type = type;
+      this.center = center;
+      this.wrapCenter = wrapCenter;
+      this.closeTime = duration;
+      this.showClose = showClose;
+      this.showImg = showImg;
+      this.width = width;
+      this.imgUrl = imgUrl;
       switch (type) {
         case 'success':
-          this.icon = 'icon-success-f'
-          break
+          this.icon = 'icon-success-f';
+          break;
         case 'warning':
-          this.icon = 'icon-info-f'
-          break
+          this.icon = 'icon-info-f';
+          break;
         case 'error':
-          this.icon = 'icon-close-f'
-          break
+          this.icon = 'icon-close-f';
+          break;
         default:
           this.icon = 'icon-tips-f'
       }

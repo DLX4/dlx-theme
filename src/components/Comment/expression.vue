@@ -8,7 +8,7 @@
       <ul class="expression-list">
         <li v-for="(tabs, index) in expressionList" :key="index" v-show="active === index" class="item">
           <a
-            href="javascript:;"
+            href="javascript:"
             v-for="(item, index) in tabs.list"
             :key="index"
             :title="item.title"

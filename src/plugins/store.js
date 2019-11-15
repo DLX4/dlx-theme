@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-
+import router from "../router";
 Vue.use(Vuex);
 
 const VUEX_PROPERTIES = ["state", "getters", "actions", "mutations"];
@@ -26,30 +26,23 @@ void (function updateModules() {
   // If the environment supports hot reloading...
 })();
 
-// const router = new VueRouter({
-//   routes
-// });
-
+// createStore
+export const createStore =
+  store instanceof Function
+    ? store
+    : () => {
+        return new Vuex.Store(
+          Object.assign(
+            {
+              strict: true
+            },
+            store
+          )
+        );
+      };
+store = createStore();
+store.$router = router;
 export default store;
-
-// export default new Vuex.Store({
-//   store
-// });
-
-// // createStore
-// export const createStore =
-//   store instanceof Function
-//     ? store
-//     : () => {
-//         return new Vuex.Store(
-//           Object.assign(
-//             {
-//               strict: process.env.NODE_ENV !== "production"
-//             },
-//             store
-//           )
-//         );
-//       };
 
 function resolveStoreModules(moduleData, filename) {
   moduleData = moduleData.default || moduleData;

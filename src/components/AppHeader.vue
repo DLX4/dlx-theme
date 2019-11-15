@@ -6,21 +6,21 @@
         <!-- logo 开始 -->
         <div class="logo">
           <h1>{{ info.blogName }}</h1>
-          <nuxt-link :to="{ name: 'index' }" class="block">
+          <router-link :to="{ name: 'index' }" class="block">
             <img
               :src="info.logo"
               class="vertical-middle"
               width="130"
               height="40"
             />
-          </nuxt-link>
+          </router-link>
         </div>
         <!-- logo结束 -->
         <!-- 导航开始 -->
         <div :class="['nav-wrapper', 'h-f-100', menuStatus && 'is-show']">
           <ul class="nav-view h-f-100">
             <li class="nav-item h-f-100" v-for="item in menu" :key="item.key">
-              <nuxt-link
+              <router-link
                 v-if="item.object === 'category'"
                 :to="{
                   name: `${item.object}-id`,
@@ -37,15 +37,15 @@
                   v-if="item.children.length !== 0"
                   type="icon-arrow-bottom"
                 ></x-icon>
-              </nuxt-link>
-              <nuxt-link
+              </router-link>
+              <router-link
                 v-else-if="item.object === 'page'"
                 :to="{ name: 'page-id', params: { id: item.object_id } }"
                 class="first-link"
               >
                 <x-icon :type="item.classes"></x-icon> {{ item.title }}
-              </nuxt-link>
-              <nuxt-link
+              </router-link>
+              <router-link
                 v-else-if="item.object === 'post_tag'"
                 :to="{
                   name: 'tags-id',
@@ -55,7 +55,7 @@
                 class="first-link"
               >
                 <x-icon :type="item.classes"></x-icon> {{ item.title }}
-              </nuxt-link>
+              </router-link>
               <a
                 v-else-if="item.object === 'custom'"
                 :href="item.url"
@@ -71,7 +71,7 @@
                     :key="child.key"
                     class="sub-item"
                   >
-                    <nuxt-link
+                    <router-link
                       v-if="child.object === 'category'"
                       :to="{
                         name: 'category-id',
@@ -80,8 +80,8 @@
                       }"
                     >
                       <x-icon :type="child.classes"></x-icon> {{ child.title }}
-                    </nuxt-link>
-                    <nuxt-link
+                    </router-link>
+                    <router-link
                       v-else-if="child.object === 'page'"
                       :to="{
                         name: 'page-id',
@@ -89,8 +89,8 @@
                       }"
                     >
                       <x-icon :type="child.classes"></x-icon> {{ child.title }}
-                    </nuxt-link>
-                    <nuxt-link
+                    </router-link>
+                    <router-link
                       v-else-if="child.object === 'post_tag'"
                       :to="{
                         name: 'tags-id',
@@ -99,7 +99,7 @@
                       }"
                     >
                       <x-icon :type="child.classes"></x-icon> {{ child.title }}
-                    </nuxt-link>
+                    </router-link>
                     <a v-else-if="child.object === 'custom'" :href="child.url">
                       <x-icon :type="child.classes"></x-icon> {{ child.title }}
                     </a>

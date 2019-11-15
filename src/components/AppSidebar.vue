@@ -36,17 +36,17 @@
               class="comment-text"
               v-html="item.content.replace(/\[img\]\S+\[\/img\]/, '[图片]')"
             ></p>
-            <nuxt-link
+            <router-link
               v-if="item.postType === 'post'"
               :to="{ name: 'details-id', params: { id: item.id } }"
               class="block title"
-              >评：{{ item.title }}</nuxt-link
+              >评：{{ item.title }}</router-link
             >
-            <nuxt-link
+            <router-link
               v-else-if="item.postType === 'page'"
               :to="{ name: 'page-id', params: { id: item.id } }"
               class="block title"
-              >评：{{ item.title }}</nuxt-link
+              >评：{{ item.title }}</router-link
             >
           </div>
         </li>

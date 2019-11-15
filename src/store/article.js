@@ -80,7 +80,7 @@ export const actions = {
   async getArticleList({ rootState, commit }, requestData) {
     try {
       let { data, headers } = await this.$axios.$get(
-        `${process.env.baseUrl}/wp-json/wp/v2/posts`,
+        `${this.GLOBAL.BASE_URL}/wp-json/wp/v2/posts`,
         {
           params: requestData,
           data: { progress: false }
@@ -108,7 +108,7 @@ export const actions = {
     try {
       const domainRegexp = /(https?:\/\/([a-z\d-]\.?)+(:\d+)?)?(\/.*)/gi;
       let { data } = await this.$axios.$get(
-        `${process.env.baseUrl}/wp-json/wp/v2/posts/${id}`,
+        `${this.GLOBAL.BASE_URL}/wp-json/wp/v2/posts/${id}`,
         {
           data: { progress: false }
         }
@@ -133,7 +133,7 @@ export const actions = {
   async updateArticleViewCount({ commit }, requestData) {
     try {
       let { data } = await this.$axios.$post(
-        `${process.env.baseUrl}/wp-json/xm-blog/v1/view-count`,
+        `${this.GLOBAL.BASE_URL}/wp-json/xm-blog/v1/view-count`,
         requestData,
         {
           headers: {
@@ -152,7 +152,7 @@ export const actions = {
   async updateOpinion({ commit }, requestData) {
     try {
       let { data } = await this.$axios.$post(
-        `${process.env.baseUrl}/wp-json/xm-blog/v1/like`,
+        `${this.GLOBAL.BASE_URL}/wp-json/xm-blog/v1/like`,
         requestData,
         {
           headers: {

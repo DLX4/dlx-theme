@@ -223,9 +223,9 @@ export default {
 
     async init () {
       if (localStorage.getItem('authorInfo')) {
-        const authorInfo = JSON.parse(localStorage.getItem('authorInfo'))
-        this.author.value = authorInfo.author
-        this.email.value = authorInfo.email
+        const authorInfo = JSON.parse(localStorage.getItem('authorInfo'));
+        this.author.value = authorInfo.author;
+        this.email.value = authorInfo.email;
         this.url.value = authorInfo.url
       }
 
@@ -233,15 +233,15 @@ export default {
       await this.getCommentList({
         post: this.$route.params.id,
         page: this.currentCommentPage
-      })
-      this.bMoreList = false
-      this.sMoreBtnText = '下一页'
+      });
+      this.bMoreList = false;
+      this.sMoreBtnText = '下一页';
       if (this.currentCommentPage === this.totalPage) {
-        this.sMoreBtnText = '最后一页！'
+        this.sMoreBtnText = '最后一页！';
         this.bClick = false
       }
       if (this.totalPage === 0) {
-        this.sMoreBtnText = '暂无数据！'
+        this.sMoreBtnText = '暂无数据！';
         this.bClick = false
       }
       this.commentStatus === 'open' && this.$nextTick(() => this._randomCode())
@@ -249,40 +249,40 @@ export default {
 
     // 评论列表下一页
     async _getMoreList () {
-      this.bMoreList = true
-      this.bClick = false
-      this.currentCommentPage++
-      this.sMoreBtnText = '加载中'
+      this.bMoreList = true;
+      this.bClick = false;
+      this.currentCommentPage++;
+      this.sMoreBtnText = '加载中';
       await this.getCommentList({
         post: this.$route.params.id,
         page: this.currentCommentPage
-      })
-      this.bMoreList = false
-      this.bClick = true
-      this.sMoreBtnText = '下一页'
+      });
+      this.bMoreList = false;
+      this.bClick = true;
+      this.sMoreBtnText = '下一页';
       if (this.currentCommentPage === this.totalPage) {
-        this.sMoreBtnText = '最后一页！'
-        this.bClick = false
+        this.sMoreBtnText = '最后一页！';
+        this.bClick = false;
         return
       }
-      this.bMoreList = false
-      this.bClick = true
+      this.bMoreList = false;
+      this.bClick = true;
       this.sMoreBtnText = '下一页'
     },
 
     // 验证码
     _randomCode () {
-      let canvas = document.querySelector('.canvas-img-code')
-      let ctx = canvas.getContext('2d')
-      let nRandom1 = Math.floor(Math.random() * 10 + 5)
-      let nRandom2 = Math.floor(Math.random() * 5)
-      let nRandomResult = Math.floor(Math.random() * 3)
-      let aOperator = ['+', '-', '*']
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-      ctx.font = '40px Microsoft Yahei'
-      ctx.fillStyle = '#333'
-      ctx.textAlign = 'center'
-      ctx.fillText(`${nRandom1} ${aOperator[nRandomResult]} ${nRandom2} = ?`, 120, 50)
+      let canvas = document.querySelector('.canvas-img-code');
+      let ctx = canvas.getContext('2d');
+      let nRandom1 = Math.floor(Math.random() * 10 + 5);
+      let nRandom2 = Math.floor(Math.random() * 5);
+      let nRandomResult = Math.floor(Math.random() * 3);
+      let aOperator = ['+', '-', '*'];
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.font = '40px Microsoft Yahei';
+      ctx.fillStyle = '#333';
+      ctx.textAlign = 'center';
+      ctx.fillText(`${nRandom1} ${aOperator[nRandomResult]} ${nRandom2} = ?`, 120, 50);
       this.random = {
         nRandom1,
         nRandom2,
@@ -295,7 +295,7 @@ export default {
       if (this.content.value !== '') {
         this.content.validate = false
       } else {
-        this.content.validate = true
+        this.content.validate = true;
         this.content.msg = '来点内容吧！'
       }
     },
@@ -305,7 +305,7 @@ export default {
       if (this.author.value !== '') {
         this.author.validate = false
       } else {
-        this.author.validate = true
+        this.author.validate = true;
         this.author.msg = '昵称不能为空！'
       }
     },
@@ -313,13 +313,13 @@ export default {
     // 验证邮箱
     _emailValidate () {
       if (this.email.value !== '') {
-        this.email.validate = false
+        this.email.validate = false;
         if (!/^(\w+|\w+(\.\w+))+@(\w+\.)+\w+$/.test(this.email.value)) {
-          this.email.validate = true
+          this.email.validate = true;
           this.email.msg = '邮箱格式错误！'
         }
       } else {
-        this.email.validate = true
+        this.email.validate = true;
         if (this.email.value === '') {
           this.email.msg = '邮箱不能为空！'
         }
@@ -329,24 +329,24 @@ export default {
     // 验证码
     _codeValidate () {
       if (this.imgCode.value === '') {
-        this.imgCode.validate = true
+        this.imgCode.validate = true;
         this.imgCode.msg = '请输入验证码！'
       } else {
-        let _randomCode = this.random
-        let result = 0
+        let _randomCode = this.random;
+        let result = 0;
         switch (_randomCode.operator) {
           case '+':
-            result = _randomCode.nRandom1 + _randomCode.nRandom2
-            break
+            result = _randomCode.nRandom1 + _randomCode.nRandom2;
+            break;
           case '-':
-            result = _randomCode.nRandom1 - _randomCode.nRandom2
-            break
+            result = _randomCode.nRandom1 - _randomCode.nRandom2;
+            break;
           case '*':
-            result = _randomCode.nRandom1 * _randomCode.nRandom2
+            result = _randomCode.nRandom1 * _randomCode.nRandom2;
             break
         }
         if (+this.imgCode.value !== result) {
-          this.imgCode.validate = true
+          this.imgCode.validate = true;
           this.imgCode.msg = '是不是看错了？'
         } else {
           this.imgCode.validate = false
@@ -356,19 +356,19 @@ export default {
 
     // 提交评论
     async _postComment () {
-      this._contentValidate()
-      this._authorValidate()
-      this._emailValidate()
-      this._codeValidate()
+      this._contentValidate();
+      this._authorValidate();
+      this._emailValidate();
+      this._codeValidate();
       if (!this.content.validate && !this.author.validate && !this.email.validate && !this.imgCode.validate) {
-        this.bSubmit = false
-        this.submitText = '提交中...'
+        this.bSubmit = false;
+        this.submitText = '提交中...';
         // 保存评论者信息
         localStorage.setItem('authorInfo', JSON.stringify({
           author: this.author.value,
           email: this.email.value,
           url: this.url.value
-        }))
+        }));
         try {
           let data = await this.updateComment({
             author_name: this.author.value,
@@ -377,14 +377,14 @@ export default {
             content: this.content.value.replace(/(\[[a-zA-Z\d]+\])/g, ' $1 '),
             post: this.$route.params.id,
             author_user_agent: navigator.userAgent
-          })
+          });
           // 允许继续点击提交按钮
-          this.bSubmit = true
-          this.submitText = '提交评论'
-          this.$store.commit('comment/UPDATE_COMMENT', data)
-          this.content.value = ''
-          this.imgCode.value = ''
-          this._randomCode()
+          this.bSubmit = true;
+          this.submitText = '提交评论';
+          this.$store.commit('comment/UPDATE_COMMENT', data);
+          this.content.value = '';
+          this.imgCode.value = '';
+          this._randomCode();
           this.$message({
             title: '提交评论成功',
             type: 'success'
@@ -393,9 +393,9 @@ export default {
           this.$message({
             title: error,
             type: 'error'
-          })
-          this._randomCode()
-          this.submitText = '提交评论'
+          });
+          this._randomCode();
+          this.submitText = '提交评论';
           this.bSubmit = true
         }
       }
@@ -404,9 +404,9 @@ export default {
     // 获取表情
     async _getExpression () {
       if (this.expression.clickState) {
-        this.expression.isShow = true
+        this.expression.isShow = true;
         if (this.expression.isFirstRequest) {
-          await this.getExpression()
+          await this.getExpression();
           this.expression.isFirstRequest = false
         }
       } else {
@@ -417,8 +417,8 @@ export default {
 
     // 插入表情
     _insertExpression (data) {
-      if (data.type === 'insert') this.content.value += ` ${data.value} `
-      this.expression.clickState = true
+      if (data.type === 'insert') this.content.value += ` ${data.value} `;
+      this.expression.clickState = true;
       this.expression.isShow = false
     },
 
@@ -440,15 +440,15 @@ export default {
     // 评论点赞、踩
     async _updateCommentOpinion (id, type, index) {
       if (localStorage.getItem(`commentOpinion_${id}`)) {
-        this.$message({ title: '已经发表过了哦！', type: 'warning' })
+        this.$message({ title: '已经发表过了哦！', type: 'warning' });
         return
       }
       try {
         let data = await this.updateCommentOpinion({
           id,
           type
-        })
-        this.$store.commit('comment/UPDATE_COMMENT_OPINION', { index, data })
+        });
+        this.$store.commit('comment/UPDATE_COMMENT_OPINION', { index, data });
         localStorage.setItem(`commentOpinion_${id}`, true)
       } catch (error) {
         this.$message({ title: '哦豁，失败了！', type: 'error' })

@@ -14,7 +14,7 @@ export const actions = {
   async getPageDetail({ commit }, id) {
     try {
       let { data } = await this.$axios.$get(
-        `${process.env.baseUrl}/wp-json/wp/v2/pages/${id}`,
+        `${this.GLOBAL.BASE_URL}/wp-json/wp/v2/pages/${id}`,
         {
           data: { progress: false }
         }
