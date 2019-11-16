@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import router from "../router";
+
 Vue.use(Vuex);
 
 const VUEX_PROPERTIES = ["state", "getters", "actions", "mutations"];
@@ -41,7 +41,7 @@ export const createStore =
         );
       };
 store = createStore();
-store.$router = router;
+
 export default store;
 
 function resolveStoreModules(moduleData, filename) {

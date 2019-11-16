@@ -1,36 +1,74 @@
-export default function({ $axios, redirect }) {
-  $axios.onRequest(config => {
-    if (config.method === "get") {
-      config.data && (config.progress = config.data.progress);
-      config.data = null;
-    } else {
-      let contentType = config.headers["Content-Type"];
-      if (contentType && contentType.indexOf("multipart/form-data") === -1) {
-        let data = {};
-        for (let [key, value] of Object.entries(config.data)) {
-          key !== "progress" && (data[key] = value);
-        }
-        config.data = data;
+import Axios from "axios";
+
+// Axios.prototype cannot be modified
+const axiosExtra = {
+  setHeader(name, value, scopes = "common") {
+    for (let scope of Array.isArray(scopes) ? scopes : [scopes]) {
+      if (!value) {
+        delete this.defaults.headers[scope][name];
+        return;
       }
-      config.progress = config.headers.progress;
-      delete config.headers.progress;
+      this.defaults.headers[scope][name] = value;
     }
-    return config;
-  });
+  },
+  setToken(token, type, scopes = "common") {
+    const value = !token ? null : (type ? type + " " : "") + token;
+    this.setHeader("Authorization", value, scopes);
+  },
+  onRequest(fn) {
+    this.interceptors.request.use(config => fn(config) || config);
+  },
+  onResponse(fn) {
+    this.interceptors.response.use(response => fn(response) || response);
+  },
+  onRequestError(fn) {
+    this.interceptors.request.use(
+      undefined,
+      error => fn(error) || Promise.reject(error)
+    );
+  },
+  onResponseError(fn) {
+    this.interceptors.response.use(
+      undefined,
+      error => fn(error) || Promise.reject(error)
+    );
+  },
+  onError(fn) {
+    this.onRequestError(fn);
+    this.onResponseError(fn);
+  }
+};
 
-  $axios.onResponse(response => {
-    response.data = {
-      data: response.data,
-      status: response.status,
-      headers: response.headers,
-      statusText: response.statusText
-    };
-    return response;
-  });
-
-  $axios.onError(error => {
-    const code = parseInt(error.response && error.response.status);
-    code >= 400 && redirect(`/${code}`);
-    return Promise.reject(error);
-  });
+// Request helpers ($get, $post, ...)
+for (let method of [
+  "request",
+  "delete",
+  "get",
+  "head",
+  "options",
+  "post",
+  "put",
+  "patch"
+]) {
+  axiosExtra["$" + method] = function() {
+    return this[method].apply(this, arguments).then(res => {
+      console.log(res)
+      return res;
+    });
+  };
 }
+
+const extendAxiosInstance = axios => {
+  for (let key in axiosExtra) {
+    axios[key] = axiosExtra[key].bind(axios);
+  }
+};
+
+let axios;
+// Create new axios instance
+axios = Axios.create();
+
+// Extend axios proto
+extendAxiosInstance(axios);
+
+export default axios;
