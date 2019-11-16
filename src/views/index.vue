@@ -120,9 +120,9 @@
 import { mapState } from "vuex";
 export default {
   name: "Index",
-  fetch({ store }) {
-    store.commit("article/SET_CURRENT_PAGE", 1);
-    return store.dispatch("article/getArticleList", {
+  created: function() {
+    this.$store.commit("article/SET_CURRENT_PAGE", 1);
+    return this.$store.dispatch("article/getArticleList", {
       page: 1,
       per_page: 8,
       _embed: true
@@ -155,8 +155,11 @@ export default {
   },
   methods: {
     _bannerClacHeight() {
-      this.bannerHeight = `${this.$refs.bannerWrapper.offsetWidth /
-        (900 / 405)}px`;
+      // TODO
+      // console.log("####:" + JSON.stringify(this.info));
+      // this.bannerHeight = `${this.$refs.bannerWrapper.offsetWidth /
+      //   (900 / 405)}px`;
+      this.bannerHeight = 200;
     },
     _changePagination(id) {
       this.$router.push({
@@ -168,6 +171,7 @@ export default {
 };
 </script>
 
+<!--suppress CssInvalidPseudoSelector -->
 <style lang="scss" scoped>
 @import "../assets/scss/variable.scss";
 // banner

@@ -241,11 +241,6 @@ import Reward from "../../components/Reward";
 import CreatePoster from "../../components/CreatePoster";
 export default {
   name: "Details",
-  // eslint-disable-next-line no-unused-vars
-  fetch({ params, error, store }) {
-    store.dispatch("article/updateArticleViewCount", { id: params.id });
-    return store.dispatch("article/getArticleDetail", params.id);
-  },
   components: {
     Comments,
     Reward,
@@ -299,6 +294,11 @@ export default {
     };
   },
   created() {
+    this.$store.dispatch("article/updateArticleViewCount", {
+      id: this.$route.params.id
+    });
+    this.$store.dispatch("article/getArticleDetail", this.$route.params.id);
+
     this.fullPath = `${this.info.domain.replace(/\/$/, "")}${this.$route.path}`;
     let other = this.detail.articleInfor.other;
 
