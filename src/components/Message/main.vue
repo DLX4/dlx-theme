@@ -1,13 +1,26 @@
 <template>
   <transition name="msg-show">
-    <div v-if="isShow" class="xm-message clearfix" :class="[`alert-${type === undefined ? 'content' : type}`, { 'align-center': center }, { 'box-center': wrapCenter }]">
+    <div
+      v-if="isShow"
+      class="xm-message clearfix"
+      :class="[
+        `alert-${type === undefined ? 'content' : type}`,
+        { 'align-center': center },
+        { 'box-center': wrapCenter }
+      ]"
+    >
       <div class="xm-message-content" :style="`width: ${width}`">
         <p class="text">
           <x-icon :type="icon"></x-icon> {{ msg }}
-          <x-icon v-if="showClose" type="icon-close" class="fr" @click.native="leave"></x-icon>
+          <x-icon
+            v-if="showClose"
+            type="icon-close"
+            class="fr"
+            @click.native="leave"
+          ></x-icon>
         </p>
         <p v-if="showImg && imgUrl" class="text-center msg-img">
-          <img :src="imgUrl" width="100" height="100" alt="">
+          <img :src="imgUrl" width="100" height="100" alt="" />
         </p>
       </div>
     </div>
@@ -15,29 +28,42 @@
 </template>
 <script>
 export default {
-  name: 'message',
-  data () {
+  name: "message",
+  data() {
     return {
-      msg: '',
-      icon: '',
-      type: '',
+      msg: "",
+      icon: "",
+      type: "",
       center: false,
-      wrapCenter: '',
+      wrapCenter: "",
       isShow: false,
       showClose: false,
       showImg: false,
       closeTime: 0,
       width: 380,
-      imgUrl: ''
-    }
+      imgUrl: ""
+    };
   },
   methods: {
-    leave () {
-      this.isShow = false
+    leave() {
+      this.isShow = false;
     },
 
     // 显示消息
-    show ({ title, type, center, wrapCenter, showImg, imgUrl, showClose, duration = 2000, width = 'initial' } = {}, mark) {
+    show(
+      {
+        title,
+        type,
+        center,
+        wrapCenter,
+        showImg,
+        imgUrl,
+        showClose,
+        duration = 2000,
+        width = "initial"
+      } = {},
+      mark
+    ) {
       this.isShow = mark;
       this.msg = title;
       this.type = type;
@@ -49,32 +75,33 @@ export default {
       this.width = width;
       this.imgUrl = imgUrl;
       switch (type) {
-        case 'success':
-          this.icon = 'icon-success-f';
+        case "success":
+          this.icon = "icon-success-f";
           break;
-        case 'warning':
-          this.icon = 'icon-info-f';
+        case "warning":
+          this.icon = "icon-info-f";
           break;
-        case 'error':
-          this.icon = 'icon-close-f';
+        case "error":
+          this.icon = "icon-close-f";
           break;
         default:
-          this.icon = 'icon-tips-f'
+          this.icon = "icon-tips-f";
       }
       // 关闭消息提示
-      this.closeTime && setTimeout(() => (this.isShow = false), this.closeTime)
+      this.closeTime && setTimeout(() => (this.isShow = false), this.closeTime);
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
+@import "../../assets/scss/variable.scss";
 .xm-message {
   position: fixed;
   top: 30px;
   left: 50%;
   z-index: 2000;
   text-align: center;
-  transition: .7s;
+  transition: 0.7s;
   transform: translateX(-50%);
 
   .xm-message-content {
@@ -84,23 +111,23 @@ export default {
     padding: 10px 15px;
     background: #fff;
     border-radius: 5px;
-    box-shadow: 0 4px 12px rgba(0,0,0,.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
   &.alert-success {
-    .iconfont{
+    .iconfont {
       color: #52c41a;
     }
   }
 
-  &.alert-content{
-    .iconfont{
+  &.alert-content {
+    .iconfont {
       color: #1890ff;
     }
   }
 
   &.alert-warning {
-    .iconfont{
+    .iconfont {
       color: #faad14;
     }
   }

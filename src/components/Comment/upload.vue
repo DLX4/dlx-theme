@@ -12,20 +12,36 @@
           <div>{{ currentProgress }}%</div>
         </div>
         <div class="select-img">
-          <input type="file" name="file" value="" ref="inpFile" accept="image/png,image/gif,image/jpeg" @change.stop="_preview($event)">
+          <input
+            type="file"
+            name="file"
+            value=""
+            ref="inpFile"
+            accept="image/png,image/gif,image/jpeg"
+            @change.stop="_preview($event)"
+          />
           <p class="mask">
-            <span v-if="bFileMark"><x-icon type="icon-upload-img2"></x-icon>点击选择图片或者拖动图片到此窗口内</span>
+            <span v-if="bFileMark"
+              ><x-icon type="icon-upload-img2"></x-icon
+              >点击选择图片或者拖动图片到此窗口内</span
+            >
             <template v-else>
-              已选择：<img :src="previewUrl" alt="">
+              已选择：<img :src="previewUrl" alt="" />
             </template>
           </p>
         </div>
         <div class="btn-wrap">
-          <div v-show="!bFileMark" class="btn btn-upload" @click.stop="_uploadImg">上传文件</div>
+          <div
+            v-show="!bFileMark"
+            class="btn btn-upload"
+            @click.stop="_uploadImg"
+          >
+            上传文件
+          </div>
           <div class="btn btn-insert" @click.stop="_insertImg">插入到文章</div>
         </div>
         <div class="result-img">
-          <img :src="resultImgUrl">
+          <img :src="resultImgUrl" />
         </div>
       </template>
       <div v-else class="drag-wrap">
@@ -37,60 +53,63 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions } from "vuex";
 export default {
-  name: 'Upload',
+  name: "Upload",
   data: () => ({
     currentProgress: 0,
-    resultImgUrl: '',
+    resultImgUrl: "",
     bFileMark: true,
-    resFileName: '',
+    resFileName: "",
     bShowDragWrap: false,
-    previewUrl: ''
+    previewUrl: ""
   }),
-  props: ['showChart'],
+  props: ["showChart"],
   computed: {
     ...mapState({
       contentUrl: state => state.info.contentUrl,
       templeteUrl: state => state.info.templeteUrl
     })
   },
-  mounted () {
+  mounted() {
     // 拖拽上传文件
-    let oUploadWrap = document.querySelector('.sub-upload-wrap');
-    oUploadWrap.ondragenter = (e) => {
+    let oUploadWrap = document.querySelector(".sub-upload-wrap");
+    oUploadWrap.ondragenter = e => {
       e.preventDefault();
-      this.bShowDragWrap = true
+      this.bShowDragWrap = true;
     };
-    oUploadWrap.ondragover = (e) => {
-      e.preventDefault()
+    oUploadWrap.ondragover = e => {
+      e.preventDefault();
     };
-    oUploadWrap.ondrop = (e) => {
+    oUploadWrap.ondrop = e => {
       e.preventDefault();
       let oReader = new FileReader();
       let oFile = e.dataTransfer.files[0];
       this.bShowDragWrap = false;
       // 判断文件是会否为图片格式
-      if (oFile.type.indexOf('image') === -1) {
+      if (oFile.type.indexOf("image") === -1) {
         this.$message({
-          title: '请上传正确的图片格式',
-          type: 'warning'
+          title: "请上传正确的图片格式",
+          type: "warning"
         });
-        this.bFileMark = true
+        this.bFileMark = true;
       } else {
         oReader.readAsDataURL(oFile);
         oReader.onload = async () => {
           let data = new FormData();
           this.previewUrl = oReader.result;
           this.bFileMark = false;
-          data.append('postID', this.$route.params.id);
-          data.append('file', oReader.result);
-          data.append('url', this.contentUrl);
-          data.append('mark', 'upload');
+          data.append("postID", this.$route.params.id);
+          data.append("file", oReader.result);
+          data.append("url", this.contentUrl);
+          data.append("mark", "upload");
           try {
             // 上传实时进度
             let config = {
-              onUploadProgress: progressEvent => (this.currentProgress = parseInt(progressEvent.loaded / progressEvent.total * 100))
+              onUploadProgress: progressEvent =>
+                (this.currentProgress = parseInt(
+                  (progressEvent.loaded / progressEvent.total) * 100
+                ))
             };
             let response = await this.uploadImage({
               requestData: data,
@@ -98,53 +117,56 @@ export default {
             });
             if (!response.code) {
               this.$message({
-                title: '上传失败！',
-                type: 'error'
-              })
+                title: "上传失败！",
+                type: "error"
+              });
             } else {
               this.resultImgUrl = response.path;
-              this.resFileName = response.name
+              this.resFileName = response.name;
             }
           } catch (error) {
             if (error === 404) {
               this.$message({
-                title: '上传失败(404)！',
-                type: 'error'
-              })
+                title: "上传失败(404)！",
+                type: "error"
+              });
             }
           }
-        }
+        };
       }
-    }
+    };
   },
   methods: {
-    ...mapActions(['uploadImage', 'deleteImage']),
-    _preview (event) {
+    ...mapActions(["uploadImage", "deleteImage"]),
+    _preview(event) {
       let oReader = new FileReader();
       oReader.readAsDataURL(event.target.files[0]);
       oReader.onload = () => (this.previewUrl = oReader.result);
-      this.bFileMark = false
+      this.bFileMark = false;
     },
 
     // 上传图片
-    async _uploadImg () {
+    async _uploadImg() {
       let _file = this.$refs.inpFile;
       if (_file.value) {
         let data = new FormData();
         if (_file.files[0].size / 1024 > 2048) {
           this.$message({
-            title: '请上传小于2M的图片！',
-            type: 'error'
-          })
+            title: "请上传小于2M的图片！",
+            type: "error"
+          });
         } else {
-          data.append('postID', this.$route.params.id);
-          data.append('file', _file.files[0]);
-          data.append('url', this.contentUrl);
-          data.append('mark', 'upload');
+          data.append("postID", this.$route.params.id);
+          data.append("file", _file.files[0]);
+          data.append("url", this.contentUrl);
+          data.append("mark", "upload");
           try {
             // 上传实时进度
             let config = {
-              onUploadProgress: progressEvent => (this.currentProgress = parseInt(progressEvent.loaded / progressEvent.total * 100))
+              onUploadProgress: progressEvent =>
+                (this.currentProgress = parseInt(
+                  (progressEvent.loaded / progressEvent.total) * 100
+                ))
             };
             let response = await this.uploadImage({
               requestData: data,
@@ -152,20 +174,20 @@ export default {
             });
             if (!response.code) {
               this.$message({
-                title: '上传失败！',
-                type: 'error'
-              })
+                title: "上传失败！",
+                type: "error"
+              });
             } else {
               this.resultImgUrl = response.path;
               this.resFileName = response.name;
-              _file.value = ''
+              _file.value = "";
             }
           } catch (error) {
             if (error === 404) {
               this.$message({
-                title: '上传失败(404)！',
-                type: 'error'
-              })
+                title: "上传失败(404)！",
+                type: "error"
+              });
             }
           }
         }
@@ -173,46 +195,47 @@ export default {
     },
 
     // 隐藏上传控件
-    async _hideUpload () {
+    async _hideUpload() {
       let data = new FormData();
-      data.append('mark', 'close');
-      data.append('url', this.contentUrl);
-      data.append('postID', this.$route.params.id);
-      data.append('fileName', this.resFileName);
+      data.append("mark", "close");
+      data.append("url", this.contentUrl);
+      data.append("postID", this.$route.params.id);
+      data.append("fileName", this.resFileName);
       // 如果本次上传的图片未发表就从服务器删除此图片
       try {
-        await this.deleteImage(data)
+        await this.deleteImage(data);
       } catch (error) {
         this.$message({
           title: error,
-          type: 'error'
-        })
+          type: "error"
+        });
       }
       // 关闭控件
-      this.$emit('showChart', {
+      this.$emit("showChart", {
         close: false,
         resFileName: this.resFileName
       });
       this.currentProgress = 0;
-      this.resultImgUrl = '';
-      this.bFileMark = true
+      this.resultImgUrl = "";
+      this.bFileMark = true;
     },
 
     // 插入到文章
-    _insertImg () {
-      this.$emit('updateContent', ` [img]${this.resultImgUrl}[/img] `);
-      this.$emit('showChart', {
+    _insertImg() {
+      this.$emit("updateContent", ` [img]${this.resultImgUrl}[/img] `);
+      this.$emit("showChart", {
         close: false,
         resFileName: this.resFileName
       });
       this.currentProgress = 0;
-      this.resultImgUrl = '';
-      this.bFileMark = true
+      this.resultImgUrl = "";
+      this.bFileMark = true;
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
+@import "../../assets/scss/variable.scss";
 // 评论上传图片
 .upload-img-wrap {
   position: fixed;
@@ -229,7 +252,7 @@ export default {
     z-index: -1;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,.7);
+    background: rgba(0, 0, 0, 0.7);
   }
 
   .sub-upload-wrap {
@@ -242,7 +265,7 @@ export default {
     padding: 10px;
     border-radius: $border-radius;
     background: $color-white;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
   }
 
   // 拖拽上传容器
@@ -278,7 +301,16 @@ export default {
       height: 5px;
       border-radius: $border-radius;
       background-color: $color-theme;
-      background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .3) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .3) 50%, rgba(255, 255, 255, .3) 75%, transparent 75%, transparent);
+      background-image: -webkit-linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.3) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0.3) 75%,
+        transparent 75%,
+        transparent
+      );
     }
   }
 
@@ -296,7 +328,6 @@ export default {
     }
 
     .mask {
-
       span {
         overflow: hidden;
         display: block;

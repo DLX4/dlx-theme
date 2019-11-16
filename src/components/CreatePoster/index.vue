@@ -3,9 +3,12 @@
     <div class="mask" @click="$emit('input', false)"></div>
     <div class="poster-content">
       <x-icon type="icon-close" @click.native="$emit('input', false)"></x-icon>
-      <div v-if="JSON.stringify(content) !== '{}'" class="poster-wrap is-border">
+      <div
+        v-if="JSON.stringify(content) !== '{}'"
+        class="poster-wrap is-border"
+      >
         <!-- 最终海报图片 -->
-        <img v-if="isCompleted" :src="posterUrl">
+        <img v-if="isCompleted" :src="posterUrl" />
 
         <!-- 用于生成海报 -->
         <div v-else ref="poster" class="create">
@@ -14,10 +17,16 @@
             <p>&nbsp;海报生成中...</p>
           </div>
           <div class="content-img-wrap text-center">
-            <img :src="content.imgUrl" height="200">
+            <img :src="content.imgUrl" height="200" />
             <div class="time">
-              <p class="day text-center">{{ content.time.replace(/(\d{4})-(\d{1,2})-(\d{1,2})/, '$3') }}</p>
-              <p>{{ content.time.replace(/(\d{4})-(\d{1,2})-(\d{1,2})/, '$1/$2') }}</p>
+              <p class="day text-center">
+                {{ content.time.replace(/(\d{4})-(\d{1,2})-(\d{1,2})/, "$3") }}
+              </p>
+              <p>
+                {{
+                  content.time.replace(/(\d{4})-(\d{1,2})-(\d{1,2})/, "$1/$2")
+                }}
+              </p>
             </div>
           </div>
           <h2 class="title">{{ content.title }}</h2>
@@ -25,12 +34,17 @@
           <div class="qrcode">
             <div class="left">
               <p>
-                <img :src="content.qrcodeLogo" width="20" height="20" class="vertical-middle">
+                <img
+                  :src="content.qrcodeLogo"
+                  width="20"
+                  height="20"
+                  class="vertical-middle"
+                />
                 <span class="vertical-middle"> {{ content.qrcodeText }}</span>
               </p>
               <p class="tips">长按二维码或扫描二维码查看完整内容</p>
             </div>
-            <img :src="QRCodeUrl" width="70" height="70" class="qrcode-img">
+            <img :src="QRCodeUrl" width="70" height="70" class="qrcode-img" />
           </div>
         </div>
       </div>
@@ -38,20 +52,39 @@
       <div class="poster-share text-center">
         <h2 class="title">分享本文海报</h2>
         <div class="btn">
-          <a :href="`https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=${$store.state.info.domain}/details/${$route.params.id}&title=${content.title}&summary=${content.summary}&pics=${poster}`" target="_blank">
-            <svg-icon iconName="#icon-QQkongjian" class="vertical-middle"></svg-icon>
+          <a
+            :href="
+              `https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=${$store.state.info.domain}/details/${$route.params.id}&title=${content.title}&summary=${content.summary}&pics=${poster}`
+            "
+            target="_blank"
+          >
+            <svg-icon
+              iconName="#icon-QQkongjian"
+              class="vertical-middle"
+            ></svg-icon>
             <span class="vertical-middle">&nbsp;分享到QQ空间</span>
           </a>
         </div>
         <div class="btn">
-          <a :href="`https://service.weibo.com/share/share.php?url=${$store.state.info.domain}/details/${$route.params.id}%230-tsina-1-21107-397232819ff9a47a7b7e80a40613cfe1&title=${content.title}&appkey=1343713053&searchPic=true&pic=${poster}#_loginLayer_1473259217614`" target="_blank">
-            <svg-icon iconName="#icon-xinlang1" class="vertical-middle"></svg-icon>
+          <a
+            :href="
+              `https://service.weibo.com/share/share.php?url=${$store.state.info.domain}/details/${$route.params.id}%230-tsina-1-21107-397232819ff9a47a7b7e80a40613cfe1&title=${content.title}&appkey=1343713053&searchPic=true&pic=${poster}#_loginLayer_1473259217614`
+            "
+            target="_blank"
+          >
+            <svg-icon
+              iconName="#icon-xinlang1"
+              class="vertical-middle"
+            ></svg-icon>
             <span class="vertical-middle">&nbsp;分享到新浪</span>
           </a>
         </div>
         <div class="btn">
           <a :href="posterUrl" :download="`${content.title}.png`">
-            <svg-icon iconName="#icon-xiazai" class="vertical-middle"></svg-icon>
+            <svg-icon
+              iconName="#icon-xiazai"
+              class="vertical-middle"
+            ></svg-icon>
             <span class="vertical-middle">&nbsp;下载海报图</span>
           </a>
         </div>
@@ -61,26 +94,26 @@
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
-import QRCode from 'qrcode'
-import html2canvas from 'html2canvas'
+import { mapActions } from "vuex";
+import QRCode from "qrcode";
+import html2canvas from "html2canvas";
 export default {
-  name: 'CreatePoster',
-  data () {
+  name: "CreatePoster",
+  data() {
     return {
-      QRCodeUrl: '',
-      posterUrl: '',
+      QRCodeUrl: "",
+      posterUrl: "",
       isCompleted: false,
       isFirstCreate: true,
       isShow: true,
-      poster: ''
-    }
+      poster: ""
+    };
   },
   props: {
     content: {
       type: Object,
-      default () {
-        return {}
+      default() {
+        return {};
       }
     },
     value: {
@@ -89,52 +122,54 @@ export default {
     }
   },
   watch: {
-    value (v) {
-      this.isFirstCreate && this._createPoster()
+    // eslint-disable-next-line no-unused-vars
+    value(v) {
+      this.isFirstCreate && this._createPoster();
     }
   },
-  mounted () {
+  mounted() {
     // 生成二维码
     const createQR = async text => {
       try {
-        this.QRCodeUrl = await QRCode.toDataURL(text)
+        this.QRCodeUrl = await QRCode.toDataURL(text);
       } catch (error) {
         console.warn(`[createQRcode]: ${error}`);
         this.$message({
           title: error,
-          type: 'error'
-        })
+          type: "error"
+        });
       }
     };
-    createQR(window.location.href)
+    createQR(window.location.href);
   },
   methods: {
-    ...mapActions(['uploadImage']),
-    async _createPoster () {
+    ...mapActions(["uploadImage"]),
+    async _createPoster() {
       // 生成海报
       let canvas = await html2canvas(this.$refs.poster, {
         useCORS: true,
         logging: false
       });
       let formData = new FormData();
-      formData.append('file', canvas.toDataURL('image/png'));
-      formData.append('postID', this.content.id);
-      formData.append('name', `poster-${this.content.id}`);
-      formData.append('url', '/wp-content');
-      formData.append('mark', 'upload');
+      formData.append("file", canvas.toDataURL("image/png"));
+      formData.append("postID", this.content.id);
+      formData.append("name", `poster-${this.content.id}`);
+      formData.append("url", "/wp-content");
+      formData.append("mark", "upload");
       let data = await this.uploadImage({
         requestData: formData
       });
-      this.$emit('on-change', data);
+      this.$emit("on-change", data);
       this.poster = this.$store.state.info.domain + data.path;
       this.isFirstCreate = false;
       this.isCompleted = true;
-      this.posterUrl = canvas.toDataURL('image/png')
+      this.posterUrl = canvas.toDataURL("image/png");
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
+@import "../../assets/scss/variable.scss";
 $padding: 10px;
 .poster-container {
   position: fixed;
@@ -216,7 +251,7 @@ $padding: 10px;
         bottom: 20px;
         right: 20px;
         padding: 0 5px 5px;
-        background: rgba(0,0,0,.5);
+        background: rgba(0, 0, 0, 0.5);
         font-size: 12px;
         color: #fff;
       }

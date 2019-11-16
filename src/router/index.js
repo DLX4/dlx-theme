@@ -1,65 +1,91 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-// import Category from "../views/Category.vue";
 import Index from "../views/index.vue";
+
+import Article from "../views/article/index.vue";
+import Category from "../views/category/index.vue";
+import Detail from "../views/details/index.vue";
+import Page from "../views/page/index.vue";
+import Phrase from "../views/phrase/index.vue";
+import Search from "../views/search/index.vue";
+import Tags from "../views/tags/index.vue";
+import ArticleId from "../views/article/_id.vue";
+import ArticleIdTitle from "../views/article/_id/_title.vue";
+import CategoryId from "../views/category/_id.vue";
+import DetialId from "../views/details/_id.vue";
+import PageId from "../views/page/_id.vue";
+import TagesId from "../views/tags/_id.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
-  // {
-  //   path: "/article",
-  //   component: _76fc4435,
-  //   name: "article"
-  // }, {
-  //   path: "/category",
-  //   component: _2ddb816a,
-  //   name: "category"
-  // }, {
-  //   path: "/details",
-  //   component: _d7bfd12e,
-  //   name: "details"
-  // }, {
-  //   path: "/page",
-  //   component: _41b10c9a,
-  //   name: "page"
-  // }, {
-  //   path: "/phrase",
-  //   component: _5027f320,
-  //   name: "phrase"
-  // }, {
-  //   path: "/search",
-  //   component: _5c40e421,
-  //   name: "search"
-  // }, {
-  //   path: "/tags",
-  //   component: _14d5c0d0,
-  //   name: "tags"
-  // }, {
-  //   path: "/article/:id",
-  //   component: _cc706046,
-  //   name: "article-id",
-  //   children: [{
-  //     path: ":title?",
-  //     component: _7da09736,
-  //     name: "article-id-title"
-  //   }]
-  // }, {
-  //   path: "/category/:id",
-  //   component: _e3a4cf1a,
-  //   name: "category-id"
-  // }, {
-  //   path: "/details/:id",
-  //   component: _77223fde,
-  //   name: "details-id"
-  // }, {
-  //   path: "/page/:id",
-  //   component: _376d6d82,
-  //   name: "page-id"
-  // }, {
-  //   path: "/tags/:id",
-  //   component: _4d7db738,
-  //   name: "tags-id"
-  // },
+  {
+    path: "/article",
+    component: Article,
+    name: "article"
+  },
+  {
+    path: "/category",
+    component: Category,
+    name: "category"
+  },
+  {
+    path: "/details",
+    component: Detail,
+    name: "details"
+  },
+  {
+    path: "/page",
+    component: Page,
+    name: "page"
+  },
+  {
+    path: "/phrase",
+    component: Phrase,
+    name: "phrase"
+  },
+  {
+    path: "/search",
+    component: Search,
+    name: "search"
+  },
+  {
+    path: "/tags",
+    component: Tags,
+    name: "tags"
+  },
+  {
+    path: "/article/:id",
+    component: ArticleId,
+    name: "article-id",
+    children: [
+      {
+        path: ":title?",
+        component: ArticleIdTitle,
+        name: "article-id-title"
+      }
+    ]
+  },
+  {
+    path: "/category/:id",
+    component: CategoryId,
+    name: "category-id"
+  },
+  {
+    path: "/details/:id",
+    component: DetialId,
+    name: "details-id"
+  },
+  {
+    path: "/page/:id",
+    component: PageId,
+    name: "page-id"
+  },
+  {
+    path: "/tags/:id",
+    component: TagesId,
+    name: "tags-id"
+  },
   {
     path: "/",
     component: Index,

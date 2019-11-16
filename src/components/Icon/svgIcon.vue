@@ -5,13 +5,14 @@
 </template>
 <script>
 export default {
-  name: 'SvgIcon',
+  name: "SvgIcon",
   props: {
     iconName: String
   }
-}
+};
 </script>
 <style lang="scss" scoped>
+@import "../../assets/scss/variable.scss";
 .iconfont-colour {
   width: 20px;
   height: 20px;

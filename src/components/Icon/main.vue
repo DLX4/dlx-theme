@@ -3,13 +3,13 @@
 </template>
 <script>
 export default {
-  name: 'XIcon',
+  name: "XIcon",
   props: {
     type: {
       type: String,
-      default: ''
+      default: ""
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped></style>

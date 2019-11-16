@@ -40,7 +40,6 @@ export const actions = {
       let { data: globalInfo } = await this.$axios.$get(
         `${this.$global.BASE_URL}/wp-json/xm-blog/v1/info`
       );
-      console.log("====" + globalInfo)
       let { data: menu } = await this.$axios.$get(
         `${this.$global.BASE_URL}/wp-json/xm-blog/v1/menu`
       );

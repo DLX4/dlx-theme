@@ -6,14 +6,20 @@
     </div>
     <template v-else>
       <ul class="expression-list">
-        <li v-for="(tabs, index) in expressionList" :key="index" v-show="active === index" class="item">
+        <li
+          v-for="(tabs, index) in expressionList"
+          :key="index"
+          v-show="active === index"
+          class="item"
+        >
           <a
             href="javascript:"
             v-for="(item, index) in tabs.list"
             :key="index"
             :title="item.title"
-            @click.stop="choose(`[${item.code}]`)">
-            <img :src="item.url" :alt="item.title" width="20">
+            @click.stop="choose(`[${item.code}]`)"
+          >
+            <img :src="item.url" :alt="item.title" width="20" />
           </a>
         </li>
       </ul>
@@ -31,42 +37,44 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 export default {
-  name: 'Expression',
+  name: "Expression",
   props: {
     isShow: Boolean
   },
   computed: {
-    ...mapState('comment', ['expressionList'])
+    ...mapState("comment", ["expressionList"])
   },
-  data () {
+  data() {
     return {
       active: 0
-    }
+    };
   },
-  mounted () {
-    document.body.addEventListener('click', this.close, false)
+  mounted() {
+    document.body.addEventListener("click", this.close, false);
   },
-  beforeDestroy () {
-    document.body.removeEventListener('click', this.close, false)
+  beforeDestroy() {
+    document.body.removeEventListener("click", this.close, false);
   },
   methods: {
-    choose (v) {
-      this.$emit('on-change', {
-        type: 'insert',
+    choose(v) {
+      this.$emit("on-change", {
+        type: "insert",
         value: v
-      })
+      });
     },
-    close () {
-      this.isShow && this.$emit('on-change', {
-        type: 'close'
-      })
+    close() {
+      this.isShow &&
+        this.$emit("on-change", {
+          type: "close"
+        });
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
+@import "../../assets/scss/variable.scss";
 // 表情容器
 .expression-wrapper {
   box-sizing: border-box;

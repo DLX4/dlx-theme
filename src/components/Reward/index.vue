@@ -2,19 +2,38 @@
   <div v-show="isShow" class="reward-toast">
     <div class="mask" @click="$emit('input', false)"></div>
     <div class="reward-toast-inner text-center">
-      <x-icon type="icon-close" @click.native.stop="$emit('input', false)"></x-icon>
-      <p class="thumbnail"><img :src="content.thumbnail" alt="" width="80"></p>
+      <x-icon
+        type="icon-close"
+        @click.native.stop="$emit('input', false)"
+      ></x-icon>
+      <p class="thumbnail">
+        <img :src="content.thumbnail" alt="" width="80" />
+      </p>
       <p class="summary">{{ content.text }}</p>
       <div class="reward-qrcode-wrap">
-        <img v-if="reward" :src="content.alipay" class="reward-qrcode" width="150" height="150" alt="">
-        <img v-else :src="content.wechatpay" class="reward-qrcode" width="150" height="150" alt="">
+        <img
+          v-if="reward"
+          :src="content.alipay"
+          class="reward-qrcode"
+          width="150"
+          height="150"
+          alt=""
+        />
+        <img
+          v-else
+          :src="content.wechatpay"
+          class="reward-qrcode"
+          width="150"
+          height="150"
+          alt=""
+        />
       </div>
       <div class="reward-btn">
         <el-radio v-model="reward" :label="true">
-          <img src="../../assets/images/alipay.svg" width="80" alt="">
+          <img src="../../assets/images/alipay.svg" width="80" alt="" />
         </el-radio>
         <el-radio v-model="reward" :label="false">
-          <img src="../../assets/images/wechatpay.svg" width="80" alt="">
+          <img src="../../assets/images/wechatpay.svg" width="80" alt="" />
         </el-radio>
       </div>
     </div>
@@ -22,30 +41,31 @@
 </template>
 <script>
 export default {
-  name: 'Reward',
-  data () {
+  name: "Reward",
+  data() {
     return {
       reward: true,
       isShow: false
-    }
+    };
   },
   props: {
     content: {
       type: Object,
-      default () {
-        return {}
+      default() {
+        return {};
       }
     },
     value: {}
   },
   watch: {
-    value (v) {
-      this.isShow = v
+    value(v) {
+      this.isShow = v;
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
+@import "../../assets/scss/variable.scss";
 .reward-toast {
   position: fixed;
   top: 0;

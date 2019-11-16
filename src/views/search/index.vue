@@ -1,15 +1,13 @@
 <template>
   <div class="container">
     <ul class="header">
-      <li class="list">当前频道：{{ $route.query.title }}</li>
+      <li class="list">
+        共<span class="mark">{{ totalPage }}</span
+        >条关于“<span class="mark">{{ $route.query.s }}</span
+        >”的文章
+      </li>
     </ul>
-    <div v-if="articleList.length === 0" class="not">暂无数据！</div>
-    <article
-      v-else
-      class="article-list"
-      v-for="item in articleList"
-      :key="item.key"
-    >
+    <article class="article-list" v-for="item in articleList" :key="item.key">
       <router-link
         :to="{ name: 'details-id', params: { id: item.id } }"
         class="thumbnail-wrap"
@@ -70,34 +68,34 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  watchQuery: ["type"],
-  name: "Category",
-  fetch({ store, query, params }) {
-    store.commit("article/SET_CURRENT_PAGE", +params.id);
+  name: "Search",
+  watchQuery: ["page", "s"],
+  fetch({ params, query, store }) {
+    store.commit("article/SET_CURRENT_PAGE", 1);
     return store.dispatch("article/getArticleList", {
-      categories: query.type,
-      page: params.id,
+      search: query.s,
+      page: query.page,
       per_page: 8,
       _embed: true
     });
-  },
-  head() {
-    return {
-      title: `${this.$route.query.title} | ${this.info.blogName}`
-    };
   },
   computed: {
     ...mapState(["info"]),
     ...mapState("article", ["articleList", "totalPage", "currentPage"])
   },
+  head() {
+    return {
+      title: `关于“${this.$route.query.s}”的文章 | ${this.info.blogName}`
+    };
+  },
   methods: {
     _changePagination(id) {
+      this.$store.commit("article/SET_CURRENT_PAGE", id);
       this.$router.push({
-        name: "category-id",
-        params: { id },
+        name: "search",
         query: {
-          type: this.$route.query.type,
-          title: this.$route.query.title
+          page: id,
+          s: this.$route.query.s
         }
       });
     }
@@ -106,7 +104,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/scss/variable.scss";
+@import "../../assets/scss/variable.scss";
 // 文章列表
 .container {
   padding: $container-padding;
@@ -117,13 +115,10 @@ export default {
     padding-bottom: $container-padding;
     border-bottom: 1px solid $color-main-background;
     font-size: $font-size-large;
-  }
 
-  // 暂无数据
-  .not {
-    margin: 15px 0;
-    text-align: center;
-    color: $color-theme;
+    .mark {
+      color: $color-theme;
+    }
   }
 }
 
