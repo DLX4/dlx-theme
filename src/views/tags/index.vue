@@ -27,11 +27,11 @@
 export default {
   name: "Page",
   layout: "page",
-  head() {
-    return {
-      title: `标签云 | ${this.$store.state.info.blogName}`
-    };
-  }
+  // head() {
+  //   return {
+  //     title: `标签云 | ${this.$store.state.info.blogName}`
+  //   };
+  // }
 };
 </script>
 

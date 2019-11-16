@@ -72,20 +72,18 @@ import { mapState } from "vuex";
 export default {
   watchQuery: ["type"],
   name: "Category",
-  fetch({ store, query, params }) {
-    store.commit("article/SET_CURRENT_PAGE", +params.id);
-    return store.dispatch("article/getArticleList", {
-      categories: query.type,
-      page: params.id,
+  created() {
+    this.$store.commit("article/SET_CURRENT_PAGE", +this.$route.params.id);
+    return this.$store.dispatch("article/getArticleList", {
+      categories: this.$route.query.type,
+      page: this.$route.params.id,
       per_page: 8,
       _embed: true
     });
   },
-  head() {
-    return {
-      title: `${this.$route.query.title} | ${this.info.blogName}`
-    };
-  },
+  // metaInfo: {
+  //   title: `${this.$route.query.title} | ${this.$global.blogName}`
+  // },
   computed: {
     ...mapState(["info"]),
     ...mapState("article", ["articleList", "totalPage", "currentPage"])

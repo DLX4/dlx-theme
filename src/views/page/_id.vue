@@ -27,8 +27,8 @@ import { mapState } from "vuex";
 export default {
   name: "Page",
   layout: "page",
-  fetch({ params, store }) {
-    return store.dispatch("page/getPageDetail", params.id);
+  created() {
+    return this.$store.dispatch("page/getPageDetail", this.$route.params.id);
   },
   components: {
     Comments

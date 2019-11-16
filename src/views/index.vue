@@ -134,10 +134,10 @@ export default {
   },
   head() {
     return {
-      title: `${this.info.blogName} | ${this.info.blogDescription}`,
+      title: `${this.state.info.blogName} | ${this.state.info.blogDescription}`,
       meta: [
-        { name: "keywords", content: this.info.keywords },
-        { name: "description", content: this.info.description }
+        { name: "keywords", content: this.state.info.keywords },
+        { name: "description", content: this.state.info.description }
       ]
     };
   },
@@ -156,7 +156,7 @@ export default {
   methods: {
     _bannerClacHeight() {
       // TODO
-      // console.log("####:" + JSON.stringify(this.info));
+      // console.log("####:" + JSON.stringify(this.state.info));
       // this.bannerHeight = `${this.$refs.bannerWrapper.offsetWidth /
       //   (900 / 405)}px`;
       this.bannerHeight = 200;

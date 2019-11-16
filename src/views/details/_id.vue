@@ -276,23 +276,23 @@ export default {
     ...mapState(["info"]),
     ...mapState("article", ["detail", "viewCount", "opinion"])
   },
-  head() {
-    let keywords = [];
-    this.detail.articleInfor.tags &&
-      this.detail.articleInfor.tags.forEach(item => keywords.push(item.name));
-    return {
-      title: `${this.detail.title.rendered} | ${this.info.blogName}`,
-      meta: [
-        { hid: "keywords", name: "keywords", content: keywords.join(",") },
-        {
-          hid: "description",
-          name: "description",
-          content: this.detail.articleInfor.summary
-        }
-      ],
-      style: [{ cssText: this.info.detailsCss, type: "text/css" }]
-    };
-  },
+  // head() {
+  //   let keywords = [];
+  //   this.detail.articleInfor.tags &&
+  //     this.detail.articleInfor.tags.forEach(item => keywords.push(item.name));
+  //   return {
+  //     title: `${this.detail.title.rendered} | ${this.info.blogName}`,
+  //     meta: [
+  //       { hid: "keywords", name: "keywords", content: keywords.join(",") },
+  //       {
+  //         hid: "description",
+  //         name: "description",
+  //         content: this.detail.articleInfor.summary
+  //       }
+  //     ],
+  //     style: [{ cssText: this.info.detailsCss, type: "text/css" }]
+  //   };
+  // },
   created() {
     this.$store.dispatch("article/updateArticleViewCount", {
       id: this.$route.params.id

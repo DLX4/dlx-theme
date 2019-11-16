@@ -4,6 +4,8 @@ import router from "./router";
 import store from "./plugins/store";
 import axios from "./plugins/axios";
 import "./assets/scss/variable.scss";
+import "./assets/scss/global.scss";
+import "element-ui/lib/theme-chalk/index.css";
 import "./plugins/element-ui";
 import "./plugins/message";
 import "./plugins/icon";

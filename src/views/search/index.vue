@@ -70,11 +70,11 @@ import { mapState } from "vuex";
 export default {
   name: "Search",
   watchQuery: ["page", "s"],
-  fetch({ params, query, store }) {
-    store.commit("article/SET_CURRENT_PAGE", 1);
-    return store.dispatch("article/getArticleList", {
-      search: query.s,
-      page: query.page,
+  created() {
+    this.$store.commit("article/SET_CURRENT_PAGE", 1);
+    return this.$store.dispatch("article/getArticleList", {
+      search: this.$route.query.s,
+      page: this.$route.query.page,
       per_page: 8,
       _embed: true
     });
@@ -83,11 +83,11 @@ export default {
     ...mapState(["info"]),
     ...mapState("article", ["articleList", "totalPage", "currentPage"])
   },
-  head() {
-    return {
-      title: `关于“${this.$route.query.s}”的文章 | ${this.info.blogName}`
-    };
-  },
+  // head() {
+  //   return {
+  //     title: `关于“${this.$route.query.s}”的文章 | ${this.info.blogName}`
+  //   };
+  // },
   methods: {
     _changePagination(id) {
       this.$store.commit("article/SET_CURRENT_PAGE", id);
