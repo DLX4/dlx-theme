@@ -52,7 +52,7 @@ for (let method of [
 ]) {
   axiosExtra["$" + method] = function() {
     return this[method].apply(this, arguments).then(res => {
-      console.log(res)
+      // console.log(res)
       return res;
     });
   };

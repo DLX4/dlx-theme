@@ -11,7 +11,12 @@ import {
 
 export const state = () => ({
   articleList: [],
-  detail: {},
+  detail: {
+    date: "",
+    title: {},
+    articleInfor: { tags: {}, nextLink: {}, prevLink: {}, other: {} },
+    content: {}
+  },
   totalPage: 0,
   currentPage: 1,
   viewCount: 0,
@@ -69,7 +74,13 @@ export const mutations = {
     state.articleList = data;
   },
 
-  [INIT_ARTICLE_OTHERINFO](state, fullPath, rewardContent, posterContent, authorOtherInfo) {
+  [INIT_ARTICLE_OTHERINFO](
+    state,
+    fullPath,
+    rewardContent,
+    posterContent,
+    authorOtherInfo
+  ) {
     state.fullPath = fullPath;
     state.rewardContent = rewardContent;
     state.posterContent = posterContent;
@@ -106,8 +117,6 @@ export const mutations = {
 export const actions = {
   // 获取文章列表
   async getArticleList({ rootState, commit }, requestData) {
-    console.log("^^^^^^^^^^^^");
-    console.log(rootState);
     try {
       let { data, headers } = await this.$axios.$get(
         `${this.$global.BASE_URL}/wp-json/wp/v2/posts`,
@@ -153,8 +162,6 @@ export const actions = {
         : rootState.info.thumbnail;
       commit(SET_ARTICLE_DETAIL, data);
       commit(UPDATE_OPINION, data.articleInfor.xmLike);
-      console.log("getArticleDetail  返回");
-      console.log(this.state.article.detail);
       return Promise.resolve(data);
     } catch (error) {
       return Promise.reject(error);
@@ -200,14 +207,7 @@ export const actions = {
   },
   // 初始化其它信息： fullPath, rewardContent，posterContent，authorOtherInfo
   async initArticleOtherInfo({ rootState, state, commit }, id, path) {
-    console.log("initArticleOtherInfo")
-    console.log(state.detail.title.rendered)
-    console.log(rootState)
-    console.log(rootState.info.domain)
-    let fullPath = `${rootState.info.domain.replace(/\/$/, "")}${
-      path
-    }`;
-    console.log(state.fullPath);
+    let fullPath = `${rootState.info.domain.replace(/\/$/, "")}${path}`;
 
     let other = state.detail.articleInfor.other;
 
@@ -245,6 +245,12 @@ export const actions = {
       id: id
     };
 
-    commit(INIT_ARTICLE_OTHERINFO, fullPath, rewardContent, posterContent, authorOtherInfo);
+    commit(
+      INIT_ARTICLE_OTHERINFO,
+      fullPath,
+      rewardContent,
+      posterContent,
+      authorOtherInfo
+    );
   }
 };

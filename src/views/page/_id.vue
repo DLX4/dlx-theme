@@ -14,7 +14,7 @@
           `共 ${detail.pageInfor.commentCount} 条评论关于 “${detail.title.rendered}”`
         "
       ></h2>
-        <comments :comment-status="detail.comment_status" />
+      <comments :comment-status="detail.comment_status" />
     </div>
   </div>
 </template>
@@ -25,8 +25,8 @@ import { mapState } from "vuex";
 export default {
   name: "Page",
   layout: "page",
-  created() {
-    return this.$store.dispatch("page/getPageDetail", this.$route.params.id);
+  beforeCreate() {
+    this.$store.dispatch("page/getPageDetail", this.$route.params.id);
   },
   components: {
     Comments

@@ -278,18 +278,13 @@ export default {
   //   };
   // },
   // beforeCreate() {},
-  async beforeCreate() {
-    console.log("beforeCreate----------");
+  beforeCreate() {
     this.$store.dispatch("article/updateArticleViewCount", {
       id: this.$route.params.id
     });
-    await this.$store.dispatch(
-      "article/getArticleDetail",
-      this.$route.params.id
-    );
-    await this.$store.dispatch("rootStoreInit", { root: true }).then(() => {
-      console.log("---------------423424--------------------");
-    });
+    this.$store.dispatch("article/getArticleDetail", this.$route.params.id);
+  },
+  updated() {
     this.$store.dispatch(
       "article/initArticleOtherInfo",
       this.$route.params.id,

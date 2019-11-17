@@ -61,8 +61,7 @@
           :to="{ name: 'details-id', params: { id: item.id } }"
           class="thumbnail-wrap"
         >
-          <img :src="item.articleInfor.thumbnail"
-               class="thumbnail" alt="" />
+          <img :src="item.articleInfor.thumbnail" class="thumbnail" alt="" />
         </router-link>
         <div class="list-content">
           <h2 class="title">
@@ -121,9 +120,9 @@
 import { mapState } from "vuex";
 export default {
   name: "Index",
-  created: function() {
+  beforeCreate: function() {
     this.$store.commit("article/SET_CURRENT_PAGE", 1);
-    return this.$store.dispatch("article/getArticleList", {
+    this.$store.dispatch("article/getArticleList", {
       page: 1,
       per_page: 8,
       _embed: true

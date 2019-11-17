@@ -65,7 +65,7 @@
 import { mapState } from "vuex";
 export default {
   name: "Article",
-  created() {
+  beforeCreate() {
     this.$store.commit("article/SET_CURRENT_PAGE", +this.$route.params.id);
     this.$store.dispatch("article/getArticleList", {
       page: this.$route.params.id,

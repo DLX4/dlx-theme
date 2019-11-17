@@ -1,7 +1,11 @@
 import { SET_CURRENT_PAGE } from "./mutations-types";
 
 export const state = () => ({
-  detail: {}
+  detail: {
+    title: {},
+    content: {},
+    pageInfor: { other: {}, commentCount: {} }
+  }
 });
 
 export const mutations = {

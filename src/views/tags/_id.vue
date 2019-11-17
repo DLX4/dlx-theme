@@ -66,9 +66,9 @@ import { mapState } from "vuex";
 export default {
   name: "Tags",
   watchQuery: ["type"],
-  created() {
+  beforeCreate() {
     this.$store.commit("article/SET_CURRENT_PAGE", +this.$route.params.id);
-    return this.$store.dispatch("article/getArticleList", {
+    this.$store.dispatch("article/getArticleList", {
       tags: this.$route.query.type,
       page: this.$route.params.id,
       per_page: 8,

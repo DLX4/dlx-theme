@@ -26,10 +26,7 @@ new Vue({
     store.$router = router;
     store.$axios = axios;
     store.$global = global_;
-    console.log(store);
-    store.dispatch("rootStoreInit").then(() => {
-      console.log("-----------------------------------")
-    });
+    store.dispatch("rootStoreInit", { root: true });
   },
   render: h => h(App)
 }).$mount("#app");

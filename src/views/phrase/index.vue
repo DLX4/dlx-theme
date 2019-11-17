@@ -31,7 +31,7 @@ export default {
   computed: {
     ...mapState("phrase", ["list"])
   },
-  created() {
+  beforeCreate() {
     this.getPhraseList();
   },
   methods: {

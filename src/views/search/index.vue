@@ -70,9 +70,9 @@ import { mapState } from "vuex";
 export default {
   name: "Search",
   watchQuery: ["page", "s"],
-  created() {
+  beforeCreate() {
     this.$store.commit("article/SET_CURRENT_PAGE", 1);
-    return this.$store.dispatch("article/getArticleList", {
+    this.$store.dispatch("article/getArticleList", {
       search: this.$route.query.s,
       page: this.$route.query.page,
       per_page: 8,
