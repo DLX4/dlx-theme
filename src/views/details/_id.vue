@@ -224,14 +224,10 @@
           `共 ${detail.articleInfor.commentCount} 条评论关于 “${detail.title.rendered}”`
         "
       ></h2>
-      <no-ssr>
-        <comments :comment-status="detail.comment_status" />
-      </no-ssr>
+      <comments :comment-status="detail.comment_status" />
     </div>
     <!-- 生成海报 -->
-    <no-ssr placeholder="Loading...">
-      <create-poster v-model="isShowPoster" :content="posterContent" />
-    </no-ssr>
+    <create-poster v-model="isShowPoster" :content="posterContent" />
   </section>
 </template>
 <script>
@@ -249,32 +245,20 @@ export default {
   data() {
     return {
       isShowReward: false,
-      isShowPoster: false,
-      fullPath: "",
-      rewardContent: {},
-      posterContent: {},
-      authorOtherInfo: {
-        github: {
-          icon: "#icon-GitHub"
-        },
-        qq: {
-          icon: "#icon-qq1"
-        },
-        wechatNum: {
-          icon: "#icon-weixin5"
-        },
-        sina: {
-          icon: "#icon-xinlang1"
-        },
-        email: {
-          icon: "#icon-youxiang"
-        }
-      }
+      isShowPoster: false
     };
   },
   computed: {
     ...mapState(["info"]),
-    ...mapState("article", ["detail", "viewCount", "opinion"])
+    ...mapState("article", [
+      "detail",
+      "viewCount",
+      "opinion",
+      "fullPath",
+      "rewardContent",
+      "posterContent",
+      "authorOtherInfo"
+    ])
   },
   // head() {
   //   let keywords = [];
@@ -293,43 +277,27 @@ export default {
   //     style: [{ cssText: this.info.detailsCss, type: "text/css" }]
   //   };
   // },
-  created() {
+  // beforeCreate() {},
+  async beforeCreate() {
+    console.log("beforeCreate----------");
     this.$store.dispatch("article/updateArticleViewCount", {
       id: this.$route.params.id
     });
-    this.$store.dispatch("article/getArticleDetail", this.$route.params.id);
-
-    this.fullPath = `${this.info.domain.replace(/\/$/, "")}${this.$route.path}`;
-    let other = this.detail.articleInfor.other;
-
-    // 合并作者数据
-    for (let key in this.authorOtherInfo) {
-      this.authorOtherInfo[key].url = other[key];
-    }
-
-    // 打赏数据
-    this.rewardContent = {
-      thumbnail: this.detail.articleInfor.other.authorPic,
-      text: this.info.rewardText,
-      alipay: this.info.alipay,
-      wechatpay: this.info.wechatpay
-    };
+    await this.$store.dispatch(
+      "article/getArticleDetail",
+      this.$route.params.id
+    );
+    await this.$store.dispatch("rootStoreInit", { root: true }).then(() => {
+      console.log("---------------423424--------------------");
+    });
+    this.$store.dispatch(
+      "article/initArticleOtherInfo",
+      this.$route.params.id,
+      this.$route.path
+    );
   },
+  created() {},
   mounted() {
-    // 海报内容
-    this.posterContent = {
-      imgUrl: this.detail.articleInfor.thumbnail,
-      title: this.detail.title.rendered,
-      summary: this.detail.articleInfor.summary,
-      time: this.detail.date.replace(/\s.*/, " "),
-      qrcodeLogo: this.detail.articleInfor.other.authorPic.replace(
-        /(https?:\/\/([a-z\d-]\.?)+(:\d+)?)?(\/.*)/gi,
-        `${this.info.domain}$4`
-      ),
-      qrcodeText: this.info.blogName,
-      id: this.$route.params.id
-    };
-
     // eslint-disable-next-line
     process.browser && document.querySelectorAll('pre code').forEach(block => Prism.highlightElement(block))
   },
@@ -374,7 +342,7 @@ export default {
         center: true,
         wrapCenter: true,
         width: 280,
-        imgUrl: this.detail.articleInfor.other.wechatPic,
+        imgUrl: this.$store.state.article.detail.articleInfor.other.wechatPic,
         duration: 0
       });
     }

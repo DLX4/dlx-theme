@@ -22,12 +22,12 @@ new Vue({
   el: "#app",
   router: router,
   store: store,
-  created() {
+  beforeCreate() {
     store.$router = router;
     store.$axios = axios;
     store.$global = global_;
     console.log(store);
-    store.dispatch("nuxtServerInit").then(() => {
+    store.dispatch("rootStoreInit").then(() => {
       console.log("-----------------------------------")
     });
   },

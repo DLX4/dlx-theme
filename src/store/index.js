@@ -35,7 +35,7 @@ export const mutations = {
 
 export const actions = {
   // 获取公用信息
-  async nuxtServerInit({ commit }) {
+  async rootStoreInit({ commit }) {
     try {
       let { data: globalInfo } = await this.$axios.$get(
         `${this.$global.BASE_URL}/wp-json/xm-blog/v1/info`

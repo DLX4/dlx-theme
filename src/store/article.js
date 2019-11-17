@@ -1,5 +1,6 @@
 import {
   UPDATE_ARTICLE_LIST,
+  INIT_ARTICLE_OTHERINFO,
   SET_ARTICLE_DETAIL,
   SET_TOTAL_PAGE,
   SET_CURRENT_PAGE,
@@ -14,6 +15,26 @@ export const state = () => ({
   totalPage: 0,
   currentPage: 1,
   viewCount: 0,
+  fullPath: "",
+  rewardContent: {},
+  posterContent: {},
+  authorOtherInfo: {
+    github: {
+      icon: "#icon-GitHub"
+    },
+    qq: {
+      icon: "#icon-qq1"
+    },
+    wechatNum: {
+      icon: "#icon-weixin5"
+    },
+    sina: {
+      icon: "#icon-xinlang1"
+    },
+    email: {
+      icon: "#icon-youxiang"
+    }
+  },
   opinion: {
     very_good: {
       src: require("../assets/images/like_love.png"),
@@ -48,6 +69,13 @@ export const mutations = {
     state.articleList = data;
   },
 
+  [INIT_ARTICLE_OTHERINFO](state, fullPath, rewardContent, posterContent, authorOtherInfo) {
+    state.fullPath = fullPath;
+    state.rewardContent = rewardContent;
+    state.posterContent = posterContent;
+    state.authorOtherInfo = authorOtherInfo;
+  },
+
   [SET_ARTICLE_DETAIL](state, data) {
     state.detail = data;
   },
@@ -78,6 +106,8 @@ export const mutations = {
 export const actions = {
   // 获取文章列表
   async getArticleList({ rootState, commit }, requestData) {
+    console.log("^^^^^^^^^^^^");
+    console.log(rootState);
     try {
       let { data, headers } = await this.$axios.$get(
         `${this.$global.BASE_URL}/wp-json/wp/v2/posts`,
@@ -123,6 +153,8 @@ export const actions = {
         : rootState.info.thumbnail;
       commit(SET_ARTICLE_DETAIL, data);
       commit(UPDATE_OPINION, data.articleInfor.xmLike);
+      console.log("getArticleDetail  返回");
+      console.log(this.state.article.detail);
       return Promise.resolve(data);
     } catch (error) {
       return Promise.reject(error);
@@ -165,5 +197,54 @@ export const actions = {
     } catch (error) {
       return Promise.reject(error);
     }
+  },
+  // 初始化其它信息： fullPath, rewardContent，posterContent，authorOtherInfo
+  async initArticleOtherInfo({ rootState, state, commit }, id, path) {
+    console.log("initArticleOtherInfo")
+    console.log(state.detail.title.rendered)
+    console.log(rootState)
+    console.log(rootState.info.domain)
+    let fullPath = `${rootState.info.domain.replace(/\/$/, "")}${
+      path
+    }`;
+    console.log(state.fullPath);
+
+    let other = state.detail.articleInfor.other;
+
+    // 合并作者数据
+    let authorOtherInfo = state.authorOtherInfo;
+    for (let key in state.authorOtherInfo) {
+      authorOtherInfo[key].url = other[key];
+    }
+
+    // 打赏数据
+    let rewardContent = {
+      thumbnail: state.detail.articleInfor.other.authorPic,
+      text: rootState.info.rewardText,
+      alipay: rootState.info.alipay,
+      wechatpay: rootState.info.wechatpay
+    };
+
+    // 海报内容
+    let posterContent = {
+      //TODO
+      // imgUrl: this.$store.state.article.detail.articleInfor.thumbnail,
+      imgUrl:
+        "http://106.54.113.128/wordpress/wp-content/uploads/2019/10/create_thumb-5.png",
+      title: state.detail.title.rendered,
+      summary: state.detail.articleInfor.summary,
+      time: state.detail.date.replace(/\s.*/, " "),
+      // TODO
+      qrcodeLogo:
+        "http://106.54.113.128/wordpress/wp-content/uploads/2019/10/create_thumb-5.png",
+      // qrcodeLogo: this.$store.state.article.detail.articleInfor.other.authorPic.replace(
+      //   /(https?:\/\/([a-z\d-]\.?)+(:\d+)?)?(\/.*)/gi,
+      //   `${this.info.domain}$4`
+      // ),
+      qrcodeText: rootState.info.blogName,
+      id: id
+    };
+
+    commit(INIT_ARTICLE_OTHERINFO, fullPath, rewardContent, posterContent, authorOtherInfo);
   }
 };

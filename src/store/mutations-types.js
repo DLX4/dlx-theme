@@ -16,6 +16,9 @@ export const UPDATE_ARTICLE_LIST = "UPDATE_ARTICLE_LIST";
 // 文章详情
 export const SET_ARTICLE_DETAIL = "SET_ARTICLE_DETAIL";
 
+// 文章其它信息
+export const INIT_ARTICLE_OTHERINFO = "INIT_ARTICLE_OTHERINFO";
+
 // 总页数
 export const SET_TOTAL_PAGE = "SET_TOTAL_PAGE";
 

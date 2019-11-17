@@ -61,7 +61,8 @@
           :to="{ name: 'details-id', params: { id: item.id } }"
           class="thumbnail-wrap"
         >
-          <img :src="item.articleInfor.thumbnail" class="thumbnail" alt="" />
+          <img :src="item.articleInfor.thumbnail"
+               class="thumbnail" alt="" />
         </router-link>
         <div class="list-content">
           <h2 class="title">
@@ -132,15 +133,15 @@ export default {
     ...mapState(["info"]),
     ...mapState("article", ["articleList", "totalPage", "currentPage"])
   },
-  head() {
-    return {
-      title: `${this.state.info.blogName} | ${this.state.info.blogDescription}`,
-      meta: [
-        { name: "keywords", content: this.state.info.keywords },
-        { name: "description", content: this.state.info.description }
-      ]
-    };
-  },
+  // head() {
+  //   return {
+  //     title: `${this.state.info.blogName} | ${this.state.info.blogDescription}`,
+  //     meta: [
+  //       { name: "keywords", content: this.state.info.keywords },
+  //       { name: "description", content: this.state.info.description }
+  //     ]
+  //   };
+  // },
   data() {
     return {
       bannerHeight: "405px"
