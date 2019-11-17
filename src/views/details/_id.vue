@@ -235,12 +235,15 @@ import { mapState, mapActions } from "vuex";
 import Comments from "../../components/Comment";
 import Reward from "../../components/Reward";
 import CreatePoster from "../../components/CreatePoster";
+import Prism from "prismjs";
 export default {
   name: "Details",
   components: {
     Comments,
     Reward,
-    CreatePoster
+    CreatePoster,
+// eslint-disable-next-line vue/no-unused-components
+    Prism
   },
   data() {
     return {
@@ -290,6 +293,8 @@ export default {
       this.$route.params.id,
       this.$route.path
     );
+    Prism.highlightAll();
+    console.log("7777")
   },
   created() {},
   mounted() {
