@@ -103,7 +103,7 @@ function normalizeRoot(moduleData, filePath) {
 
 function normalizeState(moduleData, filePath) {
   if (typeof moduleData !== "function") {
-    console.warn(`${filePath} should export a method that returns an object`);
+    //console.warn(`${filePath} should export a method that returns an object`);
     const state = Object.assign({}, moduleData);
     return () => state;
   }
@@ -112,9 +112,9 @@ function normalizeState(moduleData, filePath) {
 
 function normalizeModule(moduleData, filePath) {
   if (moduleData.state && typeof moduleData.state !== "function") {
-    console.warn(
-      `'state' should be a method that returns an object in ${filePath}`
-    );
+    // console.warn(
+    //   `'state' should be a method that returns an object in ${filePath}`
+    // );
     const state = Object.assign({}, moduleData.state);
     // Avoid TypeError: setting a property that has only a getter when overwriting top level keys
     moduleData = Object.assign({}, moduleData, { state: () => state });

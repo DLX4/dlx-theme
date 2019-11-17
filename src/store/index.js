@@ -5,7 +5,7 @@ import {
 } from "./mutations-types";
 
 export const state = () => ({
-  info: { domain: "" },
+  info: { domain: "", banner: {} },
   menu: {},
   subMenu: {},
   links: [],
