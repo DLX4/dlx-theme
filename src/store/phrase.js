@@ -14,7 +14,7 @@ export const actions = {
   async getPhraseList({ commit }) {
     try {
       let { data } = await this.$axios.get(
-        `${this.$global.BASE_URL}/wp-json/xm-blog/v1/get-phrase`
+        `${this.$constant.BASE_URL}/wp-json/xm-blog/v1/get-phrase`
       );
       commit(SET_PHRASE_LIST, data.data.data);
       return Promise.resolve(data.data.data);

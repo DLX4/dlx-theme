@@ -242,7 +242,7 @@ export default {
     Comments,
     Reward,
     CreatePoster,
-// eslint-disable-next-line vue/no-unused-components
+    // eslint-disable-next-line vue/no-unused-components
     Prism
   },
   data() {
@@ -288,13 +288,12 @@ export default {
     this.$store.dispatch("article/getArticleDetail", this.$route.params.id);
   },
   updated() {
-    this.$store.dispatch(
-      "article/initArticleOtherInfo",
-      this.$route.params.id,
-      this.$route.path
-    );
+    this.$store.dispatch("article/initArticleOtherInfo", {
+      id: this.$route.params.id,
+      path: this.$route.path
+    });
+    console.log(this.$route);
     Prism.highlightAll();
-    console.log("7777")
   },
   created() {},
   mounted() {

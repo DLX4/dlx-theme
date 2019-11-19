@@ -9,18 +9,10 @@ import "element-ui/lib/theme-chalk/index.css";
 import "./plugins/element-ui";
 import "./plugins/message";
 import "./plugins/icon";
-// import Prism from "prismjs";
-// import VuePrism from "./plugins/prism";
-// Vue.use(VuePrism);
-import "prismjs/themes/prism-tomorrow.css";
-// import "../node_modules/element-ui/lib/theme-chalk/index.css";
-// import "./assets/scss/global.scss";
-import global_ from "./Base.vue";
-//
-//
-// Vue.prototype.GLOBAL = global_;
+import "prismjs/themes/prism.css";
+import constant from "./Constant.vue";
+
 Vue.config.productionTip = false;
-// Vue.prototype.$axios = axios;
 
 new Vue({
   el: "#app",
@@ -29,7 +21,7 @@ new Vue({
   beforeCreate() {
     store.$router = router;
     store.$axios = axios;
-    store.$global = global_;
+    store.$constant = constant;
     store.dispatch("rootStoreInit", { root: true });
   },
   render: h => h(App)

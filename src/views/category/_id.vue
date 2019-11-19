@@ -82,7 +82,7 @@ export default {
     });
   },
   // metaInfo: {
-  //   title: `${this.$route.query.title} | ${this.$global.blogName}`
+  //   title: `${this.$route.query.title} | ${this.$constant.blogName}`
   // },
   computed: {
     ...mapState(["info"]),

@@ -38,13 +38,13 @@ export const actions = {
   async rootStoreInit({ commit }) {
     try {
       let { data: globalInfo } = await this.$axios.$get(
-        `${this.$global.BASE_URL}/wp-json/xm-blog/v1/info`
+        `${this.$constant.BASE_URL}/wp-json/xm-blog/v1/info`
       );
       let { data: menu } = await this.$axios.$get(
-        `${this.$global.BASE_URL}/wp-json/xm-blog/v1/menu`
+        `${this.$constant.BASE_URL}/wp-json/xm-blog/v1/menu`
       );
       let { data: links } = await this.$axios.$get(
-        `${this.$global.BASE_URL}/wp-json/xm-blog/v1/get-links`
+        `${this.$constant.BASE_URL}/wp-json/xm-blog/v1/get-links`
       );
       // 判断banner类型
       if (globalInfo.banner.style === "1") {
@@ -70,7 +70,7 @@ export const actions = {
   async uploadImage({ commit, rootState }, { requestData, config = {} }) {
     try {
       let { data } = await this.$axios.$post(
-        `${this.$global.BASE_URL}/wp-content/themes/${rootState.info.themeDir}/xm_upload.php`,
+        `${this.$constant.BASE_URL}/wp-content/themes/${rootState.info.themeDir}/xm_upload.php`,
         requestData,
         {
           headers: {
@@ -91,7 +91,7 @@ export const actions = {
   async deleteImage({ commit, rootState }, requestData) {
     try {
       let { data } = await this.$axios.$post(
-        `${this.$global.BASE_URL}/wp-content/themes/${rootState.info.themeDir}/xm_upload.php`,
+        `${this.$constant.BASE_URL}/wp-content/themes/${rootState.info.themeDir}/xm_upload.php`,
         requestData,
         {
           headers: {
