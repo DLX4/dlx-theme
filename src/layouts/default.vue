@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <loading ref="loading"></loading>
     <div
       :class="['menu-mask', menuStatus && 'is-show-menu']"
       @click="_closeMenu"
@@ -24,21 +23,16 @@
 import AppHeader from "../components/AppHeader";
 import AppFooter from "../components/AppFooter";
 import AppSidebar from "../components/AppSidebar";
-import Loading from "../components/Loading";
 import { mapState } from "vuex";
 export default {
   name: "App",
   components: {
     AppHeader,
     AppFooter,
-    AppSidebar,
-    Loading
+    AppSidebar
   },
   computed: {
     ...mapState(["menuStatus"])
-  },
-  mounted() {
-    window.$loading = this.$refs.loading;
   },
   methods: {
     _closeMenu() {

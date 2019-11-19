@@ -17,7 +17,7 @@
 <script>
 import Vue from "vue";
 export default {
-  name: "nuxt-loading",
+  name: "loading",
   data() {
     return {
       percent: 0,
