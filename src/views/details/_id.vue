@@ -292,7 +292,6 @@ export default {
       id: this.$route.params.id,
       path: this.$route.path
     });
-    console.log(this.$route);
     Prism.highlightAll();
   },
   created() {},

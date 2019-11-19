@@ -96,6 +96,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../../assets/scss/variable.scss";
 .nuxt-loading-container {
   position: fixed;
   top: 0;

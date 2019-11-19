@@ -206,7 +206,7 @@ export const actions = {
     }
   },
   // 初始化其它信息： fullPath, rewardContent，posterContent，authorOtherInfo
-  async initArticleOtherInfo({ rootState, state, commit }, id, path) {
+  async initArticleOtherInfo({ rootState, state, commit }, { id, path }) {
     let fullPath = `${rootState.info.domain.replace(/\/$/, "")}${path}`;
 
     let other = state.detail.articleInfor.other;

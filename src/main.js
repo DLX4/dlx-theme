@@ -10,7 +10,7 @@ import "./plugins/element-ui";
 import "./plugins/message";
 import "./plugins/icon";
 import "prismjs/themes/prism.css";
-import constant from "./Constant.vue";
+import Constant from "./Constant.vue";
 
 Vue.config.productionTip = false;
 
@@ -21,7 +21,7 @@ new Vue({
   beforeCreate() {
     store.$router = router;
     store.$axios = axios;
-    store.$constant = constant;
+    store.$constant = Constant;
     store.dispatch("rootStoreInit", { root: true });
   },
   render: h => h(App)
