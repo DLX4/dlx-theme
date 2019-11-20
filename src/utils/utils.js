@@ -33,16 +33,17 @@ function beforeEach(to, from, next) {
 }
 
 function onLoad(Component) {
-  let $loading = window.$app.$loading;
-  $loading.start();
+  let $loading = () =>
+    window.$app && window.$app.$loading ? window.$app.$loading : noopLoading;
+  $loading().start();
   if (Component.fetch) {
     Component.fetch({ store: Component.$store, route: Component.$route }).then(
       () => {
-        $loading.increase(99);
+        $loading().increase(99);
       }
     );
   } else {
-    $loading.increase(90);
+    $loading().increase(90);
   }
 }
 
