@@ -70,16 +70,14 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  watchQuery: ["type"],
   name: "Category",
-  beforeCreate() {
-    this.$store.commit("article/SET_CURRENT_PAGE", +this.$route.params.id);
-    this.$store.dispatch("article/getArticleList", {
-      categories: this.$route.query.type,
-      page: this.$route.params.id,
-      per_page: 8,
-      _embed: true
-    });
+
+  beforeRouteUpdate(to, from, next) {
+    this.$store.$utils.beforeRouteUpdate(this, ["type"], to, from, next);
+  },
+
+  created() {
+    this.fetch({ store: this.$store, route: this.$route });
   },
   // metaInfo: {
   //   title: `${this.$route.query.title} | ${this.$constant.blogName}`
@@ -89,6 +87,16 @@ export default {
     ...mapState("article", ["articleList", "totalPage", "currentPage"])
   },
   methods: {
+    fetch({ store, route }) {
+      store.commit("article/SET_CURRENT_PAGE", +route.params.id);
+      store.dispatch("article/getArticleList", {
+        categories: route.query.type,
+        page: route.params.id,
+        per_page: 8,
+        _embed: true
+      });
+    },
+
     _changePagination(id) {
       this.$router.push({
         name: "category-id",

@@ -65,19 +65,23 @@
 import { mapState } from "vuex";
 export default {
   name: "Article",
-  beforeCreate() {
-    this.$store.commit("article/SET_CURRENT_PAGE", +this.$route.params.id);
-    this.$store.dispatch("article/getArticleList", {
-      page: this.$route.params.id,
-      per_page: 8,
-      _embed: true
-    });
+
+  created() {
+    this.fetch({ store: this.$store, route: this.$route });
   },
   computed: {
     ...mapState(["info"]),
     ...mapState("article", ["articleList", "totalPage", "currentPage"])
   },
   methods: {
+    fetch({ store, route }) {
+      store.commit("article/SET_CURRENT_PAGE", +route.params.id);
+      store.dispatch("article/getArticleList", {
+        page: route.params.id,
+        per_page: 8,
+        _embed: true
+      });
+    },
     _changePagination(id) {
       this.$store.commit("article/SET_CURRENT_PAGE", id);
       this.$router.push({

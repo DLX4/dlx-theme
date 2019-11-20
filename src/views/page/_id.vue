@@ -25,8 +25,9 @@ import { mapState } from "vuex";
 export default {
   name: "Page",
   layout: "page",
-  beforeCreate() {
-    this.$store.dispatch("page/getPageDetail", this.$route.params.id);
+
+  created() {
+    this.fetch({ store: this.$store, route: this.$route });
   },
   components: {
     Comments
@@ -35,15 +36,20 @@ export default {
     ...mapState(["info"]),
     ...mapState("page", ["detail"])
   },
-  head() {
-    return {
-      title: `${this.detail.title.rendered} | ${this.info.blogName}`,
-      link: [
-        { rel: "stylesheet", href: "https://upyun.xuanmo.xin/css/prism.css" }
-      ],
-      style: [{ cssText: this.info.detailsCss, type: "text/css" }],
-      script: [{ src: "https://upyun.xuanmo.xin/js/prism.js" }]
-    };
+  // head() {
+  //   return {
+  //     title: `${this.detail.title.rendered} | ${this.info.blogName}`,
+  //     link: [
+  //       { rel: "stylesheet", href: "https://upyun.xuanmo.xin/css/prism.css" }
+  //     ],
+  //     style: [{ cssText: this.info.detailsCss, type: "text/css" }],
+  //     script: [{ src: "https://upyun.xuanmo.xin/js/prism.js" }]
+  //   };
+  // }
+  methods: {
+    fetch({ store, route }) {
+      store.dispatch("page/getPageDetail", route.params.id);
+    }
   }
 };
 </script>

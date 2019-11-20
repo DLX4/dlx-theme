@@ -120,13 +120,9 @@
 import { mapState } from "vuex";
 export default {
   name: "Index",
-  beforeCreate: function() {
-    this.$store.commit("article/SET_CURRENT_PAGE", 1);
-    this.$store.dispatch("article/getArticleList", {
-      page: 1,
-      per_page: 8,
-      _embed: true
-    });
+
+  created: function() {
+    this.fetch({ store: this.$store, route: this.$route });
   },
   computed: {
     ...mapState(["info"]),
@@ -154,12 +150,17 @@ export default {
     window.removeEventListener("resize", this._bannerClacHeight);
   },
   methods: {
+    fetch({ store, route }) {
+      store.commit("article/SET_CURRENT_PAGE", 1);
+      store.dispatch("article/getArticleList", {
+        page: 1,
+        per_page: 8,
+        _embed: true
+      });
+    },
     _bannerClacHeight() {
-      // TODO
-      // console.log("####:" + JSON.stringify(this.state.info));
-      // this.bannerHeight = `${this.$refs.bannerWrapper.offsetWidth /
-      //   (900 / 405)}px`;
-      this.bannerHeight = 200;
+      this.bannerHeight = `${this.$refs.bannerWrapper.offsetWidth /
+        (900 / 405)}px`;
     },
     _changePagination(id) {
       this.$router.push({

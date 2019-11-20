@@ -12,17 +12,21 @@ import "./plugins/icon";
 import "prismjs/themes/prism.css";
 import Constant from "./Constant.vue";
 import Loading from "./components/Loading";
+import utils from "./utils/utils";
 
 Vue.config.productionTip = false;
 
 new Vue({
   el: "#app",
+  name: "xxx",
+  watchQuery: "546546",
   router: router,
   store: store,
   beforeCreate() {
     store.$router = router;
     store.$axios = axios;
     store.$constant = Constant;
+    store.$utils = utils;
     store.dispatch("rootStoreInit", { root: true });
   },
   mounted() {
@@ -45,27 +49,6 @@ new Vue({
       [layoutEl]
     );
 
-    const transitionEl = h(
-      "transition",
-      {
-        props: {
-          name: "layout",
-          mode: "out-in"
-        },
-        on: {
-          beforeEnter(el) {
-            console.log("78797");
-            // Ensure to trigger scroll event after calling scrollBehavior
-            window.$app.$nextTick(() => {
-              console.log("78797");
-              window.$app.$emit("triggerScroll");
-            });
-          }
-        }
-      },
-      [templateEl]
-    );
-
     return h(
       "div",
       {
@@ -73,7 +56,7 @@ new Vue({
           id: "__nuxt"
         }
       },
-      [loadingEl, transitionEl]
+      [loadingEl, templateEl]
     );
   },
   components: {

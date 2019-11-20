@@ -245,6 +245,7 @@ export default {
     // eslint-disable-next-line vue/no-unused-components
     Prism
   },
+
   data() {
     return {
       isShowReward: false,
@@ -281,11 +282,8 @@ export default {
   //   };
   // },
   // beforeCreate() {},
-  beforeCreate() {
-    this.$store.dispatch("article/updateArticleViewCount", {
-      id: this.$route.params.id
-    });
-    this.$store.dispatch("article/getArticleDetail", this.$route.params.id);
+  created() {
+    this.fetch({ store: this.$store, route: this.$route });
   },
   updated() {
     this.$store.dispatch("article/initArticleOtherInfo", {
@@ -294,7 +292,6 @@ export default {
     });
     Prism.highlightAll();
   },
-  created() {},
   mounted() {
     // eslint-disable-next-line
     process.browser && document.querySelectorAll('pre code').forEach(block => Prism.highlightElement(block))
@@ -305,6 +302,13 @@ export default {
       .forEach(item => (item.style.display = "none"));
   },
   methods: {
+    fetch({ store, route }) {
+      store.dispatch("article/updateArticleViewCount", {
+        id: route.params.id
+      });
+      store.dispatch("article/getArticleDetail", route.params.id);
+    },
+
     ...mapActions("article", ["updateOpinion"]),
 
     // 发表意见

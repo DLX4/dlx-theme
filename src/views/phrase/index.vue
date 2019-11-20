@@ -28,13 +28,17 @@ import { mapState, mapActions } from "vuex";
 export default {
   name: "Phrase",
   layout: "page",
+
   computed: {
     ...mapState("phrase", ["list"])
   },
-  beforeCreate() {
-    this.getPhraseList();
+  created() {
+    this.fetch({ store: this.$store, route: this.$route });
   },
   methods: {
+    fetch({ store, route }) {
+      this.getPhraseList();
+    },
     ...mapActions("phrase", ["getPhraseList"])
   }
 };

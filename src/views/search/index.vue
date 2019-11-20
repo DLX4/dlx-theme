@@ -69,15 +69,12 @@
 import { mapState } from "vuex";
 export default {
   name: "Search",
-  watchQuery: ["page", "s"],
-  beforeCreate() {
-    this.$store.commit("article/SET_CURRENT_PAGE", 1);
-    this.$store.dispatch("article/getArticleList", {
-      search: this.$route.query.s,
-      page: this.$route.query.page,
-      per_page: 8,
-      _embed: true
-    });
+
+  created() {
+    this.fetch({ store: this.$store, route: this.$route });
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.$store.$utils.beforeRouteUpdate(this, ["page", "s"], to, from, next);
   },
   computed: {
     ...mapState(["info"]),
@@ -89,6 +86,15 @@ export default {
   //   };
   // },
   methods: {
+    fetch({ store, route }) {
+      store.commit("article/SET_CURRENT_PAGE", 1);
+      store.dispatch("article/getArticleList", {
+        search: route.query.s,
+        page: route.query.page,
+        per_page: 8,
+        _embed: true
+      });
+    },
     _changePagination(id) {
       this.$store.commit("article/SET_CURRENT_PAGE", id);
       this.$router.push({
