@@ -1,5 +1,4 @@
 import Axios from "axios";
-import Loading from "../components/Loading";
 
 // Axios.prototype cannot be modified
 const axiosExtra = {
@@ -80,18 +79,37 @@ const setupProgress = axios => {
   let currentRequests = 0;
 
   axios.onRequest(config => {
+    if (config.method === "get") {
+      config.data && (config.progress = config.data.progress);
+      config.data = null;
+    } else {
+      let contentType = config.headers["Content-Type"];
+      if (contentType && contentType.indexOf("multipart/form-data") === -1) {
+        let data = {};
+        for (let [key, value] of Object.entries(config.data)) {
+          key !== "progress" && (data[key] = value);
+        }
+        config.data = data;
+      }
+      config.progress = config.headers.progress;
+      delete config.headers.progress;
+    }
+
+    // return config;
     if (config && config.progress === false) {
       return;
     }
 
+    console.log(config, "++++++++++++++++++++")
     currentRequests++;
   });
 
   axios.onResponse(response => {
+    // console.log(11);
     if (response && response.config && response.config.progress === false) {
       return;
     }
-
+    console.log(response.config, "--------------------")
     currentRequests--;
     if (currentRequests <= 0) {
       currentRequests = 0;
@@ -124,9 +142,8 @@ const setupProgress = axios => {
   axios.defaults.onDownloadProgress = onProgress;
 };
 
-let axios;
 // Create new axios instance
-axios = Axios.create();
+let axios = Axios.create();
 
 // Extend axios proto
 extendAxiosInstance(axios);

@@ -18,8 +18,6 @@ Vue.config.productionTip = false;
 
 new Vue({
   el: "#app",
-  name: "xxx",
-  watchQuery: "546546",
   router: router,
   store: store,
   beforeCreate() {

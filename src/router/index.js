@@ -15,6 +15,7 @@ import CategoryId from "../views/category/_id.vue";
 import DetialId from "../views/details/_id.vue";
 import PageId from "../views/page/_id.vue";
 import TagesId from "../views/tags/_id.vue";
+import utils from "../utils/utils";
 
 Vue.use(VueRouter);
 
@@ -106,5 +107,9 @@ const router = new VueRouter({
   scrollBehavior,
   routes: routes
 });
+
+// router.beforeEach((to, from, next) => {
+//   utils.beforeEach(to, from, next);
+// });
 
 export default router;

@@ -152,7 +152,7 @@ export default {
   methods: {
     fetch({ store, route }) {
       store.commit("article/SET_CURRENT_PAGE", 1);
-      store.dispatch("article/getArticleList", {
+      return store.dispatch("article/getArticleList", {
         page: 1,
         per_page: 8,
         _embed: true

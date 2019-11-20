@@ -76,12 +76,13 @@ export default {
   methods: {
     fetch({ store, route }) {
       store.commit("article/SET_CURRENT_PAGE", +route.params.id);
-      store.dispatch("article/getArticleList", {
+      return store.dispatch("article/getArticleList", {
         page: route.params.id,
         per_page: 8,
         _embed: true
       });
     },
+
     _changePagination(id) {
       this.$store.commit("article/SET_CURRENT_PAGE", id);
       this.$router.push({

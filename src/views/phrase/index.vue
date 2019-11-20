@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     fetch({ store, route }) {
-      this.getPhraseList();
+      return this.getPhraseList();
     },
     ...mapActions("phrase", ["getPhraseList"])
   }

@@ -306,7 +306,7 @@ export default {
       store.dispatch("article/updateArticleViewCount", {
         id: route.params.id
       });
-      store.dispatch("article/getArticleDetail", route.params.id);
+      return store.dispatch("article/getArticleDetail", route.params.id);
     },
 
     ...mapActions("article", ["updateOpinion"]),

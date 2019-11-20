@@ -9,15 +9,41 @@ function getQueryDiff(toQuery, fromQuery) {
   return diff;
 }
 
+// A noop loading inteterface for when $nuxt is not yet ready
+const noopLoading = {
+  finish: () => {},
+  start: () => {},
+  fail: () => {},
+  set: () => {}
+};
+
+function beforeEach(to, from, next) {
+  console.log("beforeEach")
+  let $loading = () =>
+    window.$app && window.$app.$loading ? window.$app.$loading : noopLoading;
+
+  // Check if route path changed (_pathChanged), only if the page is not an error (for validate())
+  let _pathChanged = from.path !== to.path;
+  let _queryChanged = JSON.stringify(to.query) !== JSON.stringify(from.query);
+
+  if (_pathChanged) {
+    $loading().start();
+  }
+  // Call next()
+  next();
+}
+
 function beforeRouteUpdate(Component, watchQuery, to, from, next) {
-  const $loading = window.$app.$loading;
+  let $loading = window.$app.$loading;
   // Check if route path changed (_pathChanged), only if the page is not an error (for validate())
   let _pathChanged = from.path !== to.path;
   let _queryChanged = JSON.stringify(to.query) !== JSON.stringify(from.query);
   let _diffQuery = _queryChanged ? getQueryDiff(to.query, from.query) : [];
 
   if (_pathChanged && $loading.start && !$loading.manual) {
-    Component.fetch({ store: Component.$store, route: to });
+    Component.fetch({ store: Component.$store, route: to }).then(() => {
+      $loading.increase(99);
+    });
     $loading.start();
   }
 
@@ -31,7 +57,9 @@ function beforeRouteUpdate(Component, watchQuery, to, from, next) {
       return false;
     };
     if (startLoader() && $loading.start && !$loading.manual) {
-      Component.fetch({ store: Component.$store, route: to });
+      Component.fetch({ store: Component.$store, route: to }).then(() => {
+        $loading.increase(99);
+      });
       $loading.start();
     }
   }
@@ -42,5 +70,6 @@ function beforeRouteUpdate(Component, watchQuery, to, from, next) {
 
 let utils = {};
 utils.beforeRouteUpdate = beforeRouteUpdate;
+utils.beforeEach = beforeEach;
 
 export default utils;

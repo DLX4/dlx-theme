@@ -48,7 +48,7 @@ export default {
   // }
   methods: {
     fetch({ store, route }) {
-      store.dispatch("page/getPageDetail", route.params.id);
+      return store.dispatch("page/getPageDetail", route.params.id);
     }
   }
 };

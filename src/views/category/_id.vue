@@ -89,7 +89,7 @@ export default {
   methods: {
     fetch({ store, route }) {
       store.commit("article/SET_CURRENT_PAGE", +route.params.id);
-      store.dispatch("article/getArticleList", {
+      return store.dispatch("article/getArticleList", {
         categories: route.query.type,
         page: route.params.id,
         per_page: 8,
