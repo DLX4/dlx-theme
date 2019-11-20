@@ -54,8 +54,10 @@ new Vue({
         },
         on: {
           beforeEnter(el) {
+            console.log("78797");
             // Ensure to trigger scroll event after calling scrollBehavior
             window.$app.$nextTick(() => {
+              console.log("78797");
               window.$app.$emit("triggerScroll");
             });
           }

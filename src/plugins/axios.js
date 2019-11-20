@@ -113,6 +113,9 @@ const setupProgress = axios => {
     if (!currentRequests) {
       return;
     }
+    if (e.total === 0) {
+      return;
+    }
     const progress = (e.loaded * 100) / (e.total * currentRequests);
     $loading().set(Math.min(100, progress));
   };
