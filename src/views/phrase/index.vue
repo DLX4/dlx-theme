@@ -32,14 +32,18 @@ export default {
   computed: {
     ...mapState("phrase", ["list"])
   },
+
   created() {
-    this.fetch({ store: this.$store, route: this.$route });
+    this.$store.$utils.onLoad(this);
   },
   methods: {
     fetch({ store, route }) {
       return this.getPhraseList();
     },
     ...mapActions("phrase", ["getPhraseList"])
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.$store.$utils.onRouteChange(this, true, to, from, next);
   }
 };
 </script>

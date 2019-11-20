@@ -27,7 +27,7 @@ export default {
   layout: "page",
 
   created() {
-    this.fetch({ store: this.$store, route: this.$route });
+    this.$store.$utils.onLoad(this);
   },
   components: {
     Comments
@@ -50,6 +50,9 @@ export default {
     fetch({ store, route }) {
       return store.dispatch("page/getPageDetail", route.params.id);
     }
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.$store.$utils.onRouteChange(this, true, to, from, next);
   }
 };
 </script>

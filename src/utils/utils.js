@@ -18,7 +18,6 @@ const noopLoading = {
 };
 
 function beforeEach(to, from, next) {
-  console.log("beforeEach")
   let $loading = () =>
     window.$app && window.$app.$loading ? window.$app.$loading : noopLoading;
 
@@ -26,25 +25,44 @@ function beforeEach(to, from, next) {
   let _pathChanged = from.path !== to.path;
   let _queryChanged = JSON.stringify(to.query) !== JSON.stringify(from.query);
 
-  if (_pathChanged) {
+  if (_pathChanged || _queryChanged) {
     $loading().start();
   }
   // Call next()
   next();
 }
 
-function beforeRouteUpdate(Component, watchQuery, to, from, next) {
+function onLoad(Component) {
+  let $loading = window.$app.$loading;
+  $loading.start();
+  if (Component.fetch) {
+    Component.fetch({ store: Component.$store, route: Component.$route }).then(
+      () => {
+        $loading.increase(99);
+      }
+    );
+  } else {
+    $loading.increase(90);
+  }
+}
+
+function onRouteChange(Component, watchQuery, to, from, next) {
   let $loading = window.$app.$loading;
   // Check if route path changed (_pathChanged), only if the page is not an error (for validate())
   let _pathChanged = from.path !== to.path;
   let _queryChanged = JSON.stringify(to.query) !== JSON.stringify(from.query);
   let _diffQuery = _queryChanged ? getQueryDiff(to.query, from.query) : [];
 
-  if (_pathChanged && $loading.start && !$loading.manual) {
-    Component.fetch({ store: Component.$store, route: to }).then(() => {
-      $loading.increase(99);
-    });
+  if (_pathChanged) {
     $loading.start();
+
+    if (Component.fetch) {
+      Component.fetch({ store: Component.$store, route: to }).then(() => {
+        $loading.increase(99);
+      });
+    } else {
+      $loading.increase(90);
+    }
   }
 
   if (!_pathChanged && _queryChanged) {
@@ -56,11 +74,15 @@ function beforeRouteUpdate(Component, watchQuery, to, from, next) {
       }
       return false;
     };
-    if (startLoader() && $loading.start && !$loading.manual) {
-      Component.fetch({ store: Component.$store, route: to }).then(() => {
-        $loading.increase(99);
-      });
+    if (startLoader()) {
       $loading.start();
+      if (Component.fetch) {
+        Component.fetch({ store: Component.$store, route: to }).then(() => {
+          $loading.increase(99);
+        });
+      } else {
+        $loading.increase(90);
+      }
     }
   }
 
@@ -69,7 +91,8 @@ function beforeRouteUpdate(Component, watchQuery, to, from, next) {
 }
 
 let utils = {};
-utils.beforeRouteUpdate = beforeRouteUpdate;
+utils.onRouteChange = onRouteChange;
+utils.onLoad = onLoad;
 utils.beforeEach = beforeEach;
 
 export default utils;

@@ -67,11 +67,9 @@ export default {
   name: "Tags",
 
   created() {
-    this.fetch({ store: this.$store, route: this.$route });
+    this.$store.$utils.onLoad(this);
   },
-  beforeRouteUpdate(to, from, next) {
-    this.$store.$utils.beforeRouteUpdate(this, ["type"], to, from, next);
-  },
+
   computed: {
     ...mapState(["info"]),
     ...mapState("article", ["articleList", "totalPage", "currentPage"])
@@ -91,6 +89,7 @@ export default {
         _embed: true
       });
     },
+
     _changePagination(id) {
       this.$store.commit("article/SET_CURRENT_PAGE", id);
       this.$router.push({
@@ -102,6 +101,9 @@ export default {
         }
       });
     }
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.$store.$utils.onRouteChange(this, ["type"], to, from, next);
   }
 };
 </script>

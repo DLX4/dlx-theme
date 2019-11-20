@@ -283,7 +283,7 @@ export default {
   // },
   // beforeCreate() {},
   created() {
-    this.fetch({ store: this.$store, route: this.$route });
+    this.$store.$utils.onLoad(this);
   },
   updated() {
     this.$store.dispatch("article/initArticleOtherInfo", {
@@ -348,6 +348,9 @@ export default {
         duration: 0
       });
     }
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.$store.$utils.onRouteChange(this, true, to, from, next);
   }
 };
 </script>

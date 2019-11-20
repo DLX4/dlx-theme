@@ -122,7 +122,7 @@ export default {
   name: "Index",
 
   created: function() {
-    this.fetch({ store: this.$store, route: this.$route });
+    this.$store.$utils.onLoad(this);
   },
   computed: {
     ...mapState(["info"]),
@@ -158,6 +158,7 @@ export default {
         _embed: true
       });
     },
+
     _bannerClacHeight() {
       this.bannerHeight = `${this.$refs.bannerWrapper.offsetWidth /
         (900 / 405)}px`;
@@ -168,6 +169,9 @@ export default {
         params: { id }
       });
     }
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.$store.$utils.onRouteChange(this, true, to, from, next);
   }
 };
 </script>

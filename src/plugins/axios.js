@@ -100,16 +100,13 @@ const setupProgress = axios => {
       return;
     }
 
-    console.log(config, "++++++++++++++++++++")
     currentRequests++;
   });
 
   axios.onResponse(response => {
-    // console.log(11);
     if (response && response.config && response.config.progress === false) {
       return;
     }
-    console.log(response.config, "--------------------")
     currentRequests--;
     if (currentRequests <= 0) {
       currentRequests = 0;

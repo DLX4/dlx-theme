@@ -72,12 +72,8 @@ import { mapState } from "vuex";
 export default {
   name: "Category",
 
-  beforeRouteUpdate(to, from, next) {
-    this.$store.$utils.beforeRouteUpdate(this, ["type"], to, from, next);
-  },
-
   created() {
-    this.fetch({ store: this.$store, route: this.$route });
+    this.$store.$utils.onLoad(this);
   },
   // metaInfo: {
   //   title: `${this.$route.query.title} | ${this.$constant.blogName}`
@@ -107,6 +103,9 @@ export default {
         }
       });
     }
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.$store.$utils.onRouteChange(this, ["type"], to, from, next);
   }
 };
 </script>
