@@ -61,7 +61,15 @@
           :to="{ name: 'details-id', params: { id: item.id } }"
           class="thumbnail-wrap"
         >
-          <img :src="item.articleInfor.thumbnail" class="thumbnail" alt="" />
+          <img
+            :src="
+              item.articleInfor.thumbnail
+                ? item.articleInfor.thumbnail
+                : info.thumbnail
+            "
+            class="thumbnail"
+            alt=""
+          />
         </router-link>
         <div class="list-content">
           <h2 class="title">
