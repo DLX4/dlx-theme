@@ -1,13 +1,7 @@
-import Prism from "prismjs";
+import prism from "prismjs";
+import "prismjs/components/prism-java";
+import "prismjs/components/prism-python";
+import "prismjs/components/prism-clike";
+import "prismjs/components/prism-sql";
 
-const VuePrism = {
-  install(Vue, options) {
-    Vue.mixin({
-      updated() {
-        Prism.highlightAll();
-      }
-    });
-  }
-};
-
-export default VuePrism;
+export default prism;

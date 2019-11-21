@@ -235,7 +235,7 @@ import { mapState, mapActions } from "vuex";
 import Comments from "../../components/Comment";
 import Reward from "../../components/Reward";
 import CreatePoster from "../../components/CreatePoster";
-import Prism from "prismjs";
+import Prism from "../../plugins/prism";
 export default {
   name: "Details",
   components: {
